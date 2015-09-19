@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">Red Life</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="action_search">Search</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="nav_item_dashboard">Dashboard</string>
+    <string name="nav_item_profile">Profile</string>
+    <string name="nav_item_medical_record">Medical Record</string>
+
+    <!-- navigation drawer item labels  -->
+    <string-array name="nav_drawer_labels">
+        <item>@string/nav_item_dashboard</item>
+        <item>@string/nav_item_profile</item>
+        <item>@string/nav_item_medical_record</item>
+    </string-array>
+
+    <string name="title_profile">Profile</string>
+    <string name="title_medical_record">Medical Record</string>
+    <string name="title_dashboard">Dashboard</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_splash">Splash</string>
+    <string name="title_activity_signup">SignupActivity</string>
+
+
+    <string name="hint_name">Full Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_phone">Mobile No</string>
+    <string name="hint_dob">DOB</string>
+    <string name="btn_sign_up">Sign Up</string>
+    <string name="btn_update">Update</string>
+    <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_password">Enter the password</string>
+
+    <string-array name="bloodgroup">
+        <item>A+ve</item>
+        <item>A-ve</item>
+        <item>B+ve</item>
+        <item>B-ve</item>
+        <item>AB+</item>
+        <item>AB-ve</item>
+        <item>0+ve</item>
+        <item>o-ve</item>
+    </string-array>
+</resources>
