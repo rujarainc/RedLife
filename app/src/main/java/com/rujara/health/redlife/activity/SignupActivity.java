@@ -1,6 +1,7 @@
 package com.rujara.health.redlife.activity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -31,7 +32,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
 
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
@@ -96,6 +97,12 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
+    public void goToLogin(View view) {
+        Intent login = new Intent(this, LoginActivity.class);
+        startActivity(login);
+    }
+
+
     class mDateSetListener implements DatePickerDialog.OnDateSetListener {
 
         @Override
@@ -109,4 +116,6 @@ public class SignupActivity extends AppCompatActivity {
                     .append(mYear).append(" "));
         }
     }
+
+
 }

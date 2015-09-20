@@ -14,7 +14,7 @@ import com.rujara.health.redlife.R;
  */
 public class Splash extends AppCompatActivity {
 
-    private final int SPLASH_TIME_OUT = 3000;
+    private final int SPLASH_TIME_OUT = 1000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +22,7 @@ public class Splash extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(Splash.this, Dashboard.class);
+                Intent i = new Intent(Splash.this, LoginActivity.class);
                 startActivity(i);
                 finish();
             }
