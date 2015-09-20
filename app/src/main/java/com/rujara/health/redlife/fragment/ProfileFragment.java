@@ -1,4 +1,4 @@
-package com.rujara.health.redlife.activity;
+package com.rujara.health.redlife.fragment;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;

@@ -1,7 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -16,9 +15,9 @@
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:src="@drawable/ic_profile"
+                    android:layout_centerInParent="true"
                     android:scaleType="fitCenter"
-                    android:layout_centerInParent="true" />
+                    android:src="@drawable/ic_profile" />
 
             </RelativeLayout>
             <LinearLayout
@@ -38,8 +37,8 @@
                         android:id="@+id/input_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:hint="@string/hint_name" />
+                        android:hint="@string/hint_name"
+                        android:singleLine="true" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -52,8 +51,8 @@
                         android:id="@+id/input_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:hint="@string/hint_email" />
+                        android:hint="@string/hint_email"
+                        android:inputType="textEmailAddress" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -66,8 +65,8 @@
                         android:id="@+id/input_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="phone"
-                        android:hint="@string/hint_phone" />
+                        android:hint="@string/hint_phone"
+                        android:inputType="phone" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -80,8 +79,8 @@
                         android:id="@+id/input_dob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="date"
-                        android:hint="@string/hint_dob" />
+                        android:hint="@string/hint_dob"
+                        android:inputType="date" />
                 </android.support.design.widget.TextInputLayout>
 
                 <!--<android.support.design.widget.TextInputLayout-->
@@ -102,10 +101,10 @@
                 <Button android:id="@+id/btn_update"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/btn_update"
-                    android:background="@color/colorPrimary"
-                    android:layout_marginTop="40dp"
                     android:layout_marginBottom="40dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/btn_update"
                     android:textColor="@android:color/white"/>
                 android:textColor="@android:color/white"/>
 
@@ -118,10 +117,7 @@
 
 <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
     <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical"-->
-    <!--tools:context="com.rujara.health.redlife.activity.ProfileFragment">-->
+    <!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:orientation="vertical"--><!--tools:context="com.rujara.health.redlife.fragment.ProfileFragment">-->
 
 
     <!--<TextView-->

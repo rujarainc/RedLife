@@ -4,10 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.rujara.health.redlife.activity.HistoryFragment;
-import com.rujara.health.redlife.activity.HomeFragment;
-
-import java.util.Locale;
+import com.rujara.health.redlife.fragment.HistoryFragment;
+import com.rujara.health.redlife.fragment.HomeFragment;
 
 /**
  * Created by deep.patel on 9/18/15.

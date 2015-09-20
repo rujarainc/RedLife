@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="gcmSenderId">398373931836</string>
+
     <string name="app_name">Red Life</string>
 
     <string name="hello_world">Hello world!</string>

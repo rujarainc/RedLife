@@ -1,22 +1,33 @@
 package com.rujara.health.redlife.activity;
 
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.rujara.health.redlife.R;
+import com.rujara.health.redlife.constants.RedLifeContants;
+import com.rujara.health.redlife.fragment.DashboardFragment;
+import com.rujara.health.redlife.fragment.MedicalRecordFragment;
+import com.rujara.health.redlife.fragment.ProfileFragment;
 
+import java.io.IOException;
+
+/**
+ * Created by deep.patel on 9/18/15.
+ */
 public class Dashboard extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener{
 
     private static String TAG = Dashboard.class.getSimpleName();
-
+    GoogleCloudMessaging gcm = null;
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
 
@@ -25,7 +36,7 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_dashboard);
-
+        new RegisterGcmTask().execute();
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
@@ -37,8 +48,6 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), mToolbar);
         drawerFragment.setDrawerListener(this);
 
-
-        // display the first navigation drawer view on app launch
         displayView(0);
     }
 
@@ -51,21 +60,10 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
-//        if(id == R.id.action_search){
-//            Toast.makeText(getApplicationContext(), "Search action is selected!", Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -99,9 +97,35 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
             android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_body, fragment);
             fragmentTransaction.commit();
-
-            // set the toolbar title
             getSupportActionBar().setTitle(title);
+        }
+    }
+
+    class RegisterGcmTask extends AsyncTask<Void, Void, String> {
+        String msg = "";
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                gcm = GoogleCloudMessaging.getInstance(getApplicationContext());
+                msg = gcm.register("398373931836");
+//                gcm.unregister();
+                RedLifeContants.GCM = gcm;
+            } catch (IOException ex) {
+                msg = "Error :" + ex.getMessage();
+            }
+            return msg;
+        }
+
+        @Override
+        protected void onPostExecute(String msg) {
+            Log.v("[rujara]", "Response: " + msg);
+
+//            Intent intent = new Intent(getApplicationContext(), ListUsersActivity.class);
+//            Intent serviceIntent = new Intent(getApplicationContext(), MessageService.class);
+//            serviceIntent.putExtra("regId", msg);
+//            startActivity(intent);
+//            startService(serviceIntent);
         }
     }
 }

@@ -26,21 +26,16 @@ import java.util.List;
  */
 public class FragmentDrawer extends Fragment{
     private static String TAG = FragmentDrawer.class.getSimpleName();
-
+    private static String[] titles = null;
     private RecyclerView recyclerView;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationDrawerAdapter adapter;
     private View containerView;
-    private static String[] titles = null;
     private FragmentDrawerListener drawerListener;
 
     public FragmentDrawer() {
 
-    }
-
-    public void setDrawerListener(FragmentDrawerListener listener) {
-        this.drawerListener = listener;
     }
 
     public static List<NavDrawerItem> getData() {
@@ -54,6 +49,10 @@ public class FragmentDrawer extends Fragment{
             data.add(navItem);
         }
         return data;
+    }
+
+    public void setDrawerListener(FragmentDrawerListener listener) {
+        this.drawerListener = listener;
     }
 
     @Override
@@ -130,6 +129,10 @@ public class FragmentDrawer extends Fragment{
         public void onLongClick(View view, int position);
     }
 
+    public interface FragmentDrawerListener {
+        public void onDrawerItemSelected(View view, int position);
+    }
+
     static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
         private GestureDetector gestureDetector;
@@ -173,9 +176,5 @@ public class FragmentDrawer extends Fragment{
         }
 
 
-    }
-
-    public interface FragmentDrawerListener {
-        public void onDrawerItemSelected(View view, int position);
     }
 }

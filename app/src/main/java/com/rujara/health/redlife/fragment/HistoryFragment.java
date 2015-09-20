@@ -1,7 +1,6 @@
-package com.rujara.health.redlife.activity;
+package com.rujara.health.redlife.fragment;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +9,9 @@ import android.view.ViewGroup;
 
 import com.rujara.health.redlife.R;
 
-
+/**
+ * Created by deep.patel on 9/18/15.
+ */
 public class HistoryFragment extends Fragment {
     public HistoryFragment() {
         // Required empty public constructor

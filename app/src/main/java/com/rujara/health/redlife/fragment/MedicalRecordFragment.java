@@ -1,8 +1,5 @@
-package com.rujara.health.redlife.activity;
+package com.rujara.health.redlife.fragment;
 
-/**
- * Created by deep.patel on 9/18/15.
- */
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,9 +10,12 @@ import android.view.ViewGroup;
 import com.rujara.health.redlife.R;
 
 
-public class HomeFragment extends Fragment {
+/**
+ * Created by deep.patel on 9/18/15.
+ */
+public class MedicalRecordFragment extends Fragment {
 
-    public HomeFragment() {
+    public MedicalRecordFragment() {
         // Required empty public constructor
     }
 
@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_medical_record, container, false);
 
 
         // Inflate the layout for this fragment

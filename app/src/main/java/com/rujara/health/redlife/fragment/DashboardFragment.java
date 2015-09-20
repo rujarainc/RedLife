@@ -1,13 +1,11 @@
-package com.rujara.health.redlife.activity;
+package com.rujara.health.redlife.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +13,9 @@ import android.view.ViewGroup;
 
 import com.rujara.health.redlife.R;
 
+/**
+ * Created by deep.patel on 9/18/15.
+ */
 public class DashboardFragment extends Fragment {
 
 
