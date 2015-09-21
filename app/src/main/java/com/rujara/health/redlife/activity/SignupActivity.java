@@ -3,6 +3,7 @@ package com.rujara.health.redlife.activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,26 +13,35 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.rujara.health.redlife.R;
+import com.rujara.health.redlife.networks.INetworkListener;
+import com.rujara.health.redlife.networks.NetworkInspector;
 
 import java.util.Calendar;
 
 /**
  * Created by deep.patel on 9/18/15.
  */
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends AppCompatActivity implements INetworkListener {
 
+    Snackbar snackbar = null;
     private Toolbar toolbar;
     private EditText inputName, inputEmail, inputPassword;
     private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword;
     private Button btnSignUp;
     private EditText dob;
+    private NetworkInspector networkInspector = null;
+    private View myView = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        myView = findViewById(R.id.signup_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        networkInspector = new NetworkInspector(this, this);
         //setSupportActionBar(toolbar);
 
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
@@ -96,12 +106,39 @@ public class SignupActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
     public void goToLogin(View view) {
         Intent login = new Intent(this, LoginActivity.class);
         startActivity(login);
     }
 
+    @Override
+    public void onNetworkConnected() {
+        if (snackbar != null)
+            snackbar.dismiss();
+    }
+
+    @Override
+    public void onNetWorkConnectionFail() {
+        if (snackbar == null) {
+            snackbar = Snackbar.make(myView, "Data Connection Lost..", Snackbar.LENGTH_INDEFINITE);
+            View snackbarView = snackbar.getView();
+            snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(getResources().getColor(R.color.windowBackground));
+        }
+
+        snackbar.show();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        networkInspector.start();
+    }
+
+    protected void onPause() {
+        super.onPause();
+        networkInspector.stop();
+    }
 
     class mDateSetListener implements DatePickerDialog.OnDateSetListener {
 
@@ -116,6 +153,5 @@ public class SignupActivity extends AppCompatActivity {
                     .append(mYear).append(" "));
         }
     }
-
 
 }
