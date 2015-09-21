@@ -21,6 +21,7 @@ import com.rujara.health.redlife.fragment.MedicalRecordFragment;
 import com.rujara.health.redlife.fragment.ProfileFragment;
 import com.rujara.health.redlife.networks.INetworkListener;
 import com.rujara.health.redlife.networks.NetworkInspector;
+import com.rujara.health.redlife.utils.SessionManager;
 
 /**
  * Created by deep.patel on 9/18/15.
@@ -34,7 +35,7 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
     private FragmentDrawer drawerFragment;
     private NetworkInspector networkInspector = null;
     private View myView = null;
-
+    private SessionManager sessionManger = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,9 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
 //        new RegisterGcmTask().execute();
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         myView = findViewById(R.id.drawer_layout);
+
+        sessionManger = new SessionManager(getApplicationContext());
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -67,6 +71,10 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        if (id == R.id.action_logout) {
+            sessionManger.logoutUser();
         }
         return super.onOptionsItemSelected(item);
     }

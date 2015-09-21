@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.rujara.health.redlife.R;
 import com.rujara.health.redlife.networks.INetworkListener;
 import com.rujara.health.redlife.networks.NetworkInspector;
+import com.rujara.health.redlife.utils.SessionManager;
 
 public class LoginActivity extends AppCompatActivity implements INetworkListener {
 
@@ -25,12 +26,13 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
     private Button _loginButton = null;
     private NetworkInspector networkInspector = null;
     private View myView = null;
-
+    private SessionManager sessionManager = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         myView = findViewById(R.id.login_view);
+        sessionManager = new SessionManager(getApplicationContext());
         _emailText = (EditText) findViewById(R.id.input_email);
         _passwordText = (EditText) findViewById(R.id.input_password);
         networkInspector = new NetworkInspector(this, this);
@@ -70,6 +72,9 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
         if (!validate())
             return;
 
+        String email = _emailText.getText().toString();
+        String password = _passwordText.getText().toString();
+
         final ProgressDialog ringProgressDialog = ProgressDialog.show(LoginActivity.this, null, "Authenticating ...", true);
         ringProgressDialog.setCancelable(false);
         new Thread(new Runnable() {
@@ -83,6 +88,7 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
                 ringProgressDialog.dismiss();
             }
         }).start();
+        sessionManager.createLoginSession(email, "SampleToken");
         Intent dashboard = new Intent(this, Dashboard.class);
         startActivity(dashboard);
     }
