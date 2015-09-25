@@ -1,0 +1,41 @@
+{
+  "project_info": {
+    "project_id": "rujara-red-life",
+    "project_number": "398373931836",
+    "name": "Red Life"
+  },
+  "client": [
+    {
+      "client_info": {
+        "client_id": "android:com.rujara.health.redlife",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.rujara.health.redlife"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
