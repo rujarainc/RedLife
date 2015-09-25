@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <permission
         android:name="com.rujara.health.redlife.permission.C2D_MESSAGE"
@@ -20,8 +22,14 @@
     <!-- To retrieve the account name (email) as part of sign-in: -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <!-- AIzaSyDMbT6uQ_GbfcIDCCfnwKWJd7XaosQn9DQ -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -72,18 +80,43 @@
             </intent-filter>
         </service>
 
-        <!--<activity-->
-        <!--android:name=".LoginActivity"-->
-        <!--android:label="@string/title_activity_login"-->
-        <!--android:windowSoftInputMode="adjustResize|stateHidden"></activity>-->
-
+        <!-- <activity -->
+        <!-- android:name=".LoginActivity" -->
+        <!-- android:label="@string/title_activity_login" -->
+        <!-- android:windowSoftInputMode="adjustResize|stateHidden"></activity> -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDMbT6uQ_GbfcIDCCfnwKWJd7XaosQn9DQ" />
 
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_login" />
+
+        <service
+            android:name=".service.LocationUpdater"
+            android:exported="false"></service>
+        <service
+            android:name=".service.MyService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity
+            android:name=".activity.ListDonors"
+            android:label="@string/title_activity_list_donors">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rujara.health.redlife.activity.Dashboard" />
+        </activity>
+        <activity
+            android:name=".activity.DonateActivity"
+            android:label="@string/title_activity_donate">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rujara.health.redlife.activity.Dashboard" />
+        </activity>
     </application>
 
 </manifest>

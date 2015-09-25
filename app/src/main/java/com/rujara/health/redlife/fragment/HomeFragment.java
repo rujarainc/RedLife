@@ -3,6 +3,7 @@ package com.rujara.health.redlife.fragment;
 /**
  * Created by deep.patel on 9/18/15.
  */
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -46,4 +47,6 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
+
 }
