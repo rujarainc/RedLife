@@ -6,11 +6,13 @@ import android.graphics.drawable.Drawable;
  * Created by deep.patel on 9/23/15.
  */
 public class RequestObject {
+    private String id;
     private String mText1;
     private String mText2;
     private Drawable bloodGroupIcon;
 
-    public RequestObject(String text1, String text2, Drawable bloodGroupIcon) {
+    public RequestObject(String id, String text1, String text2, Drawable bloodGroupIcon) {
+        this.id = id;
         mText1 = text1;
         mText2 = text2;
         this.bloodGroupIcon = bloodGroupIcon;
@@ -24,6 +26,13 @@ public class RequestObject {
         this.bloodGroupIcon = bloodGroupIcon;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getmText1() {
         return mText1;
     }

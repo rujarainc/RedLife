@@ -67,7 +67,7 @@ public class OtherRequest extends Fragment {
     private ArrayList<RequestObject> getDataSet() {
         ArrayList results = new ArrayList<RequestObject>();
         for (int index = 0; index < 20; index++) {
-            RequestObject obj = new RequestObject("Some Primary Text " + index,
+            RequestObject obj = new RequestObject(null, "Some Primary Text " + index,
                     "Secondary " + index, getResources().getDrawable(R.drawable.a_plus));
             results.add(index, obj);
         }

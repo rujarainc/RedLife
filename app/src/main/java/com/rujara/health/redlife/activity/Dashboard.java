@@ -161,7 +161,8 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
     }
 
     public void onSearchDonors(View view) {
-        Intent donorList = new Intent(this, ListDonors.class);
+        Intent donorList = new Intent(this, ResponseActivity.class);
+        donorList.putExtra("makeRequest", true);
         startActivity(donorList);
     }
 

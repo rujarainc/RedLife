@@ -168,9 +168,14 @@ public class ListDonors extends AppCompatActivity implements LocationListener, I
         }
     }
 
+    protected void onPause() {
+        super.onPause();
+        networkInspector.stop();
+    }
     @Override
     protected void onResume() {
         super.onResume();
+        networkInspector.start();
         ((DonorListAdapter) mAdapter).setOnItemClickListener(new DonorListAdapter
                 .MyClickListener() {
             @Override

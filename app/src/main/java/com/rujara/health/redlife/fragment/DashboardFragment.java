@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rujara.health.redlife.R;
+import com.rujara.health.redlife.constants.RedLifeContants;
 
 /**
  * Created by deep.patel on 9/18/15.
@@ -51,6 +52,10 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+        if (RedLifeContants.OPEN_HISTORY) {
+            viewPager.setCurrentItem(1);
+            RedLifeContants.OPEN_HISTORY = false;
+        }
         return x;
 
     }
@@ -69,7 +74,7 @@ public class DashboardFragment extends Fragment {
         public Fragment getItem(int position)
         {
             switch (position){
-                case 0 :
+                case 0:
                     return new HomeFragment();
 
                 case 1 : return new HistoryFragment();

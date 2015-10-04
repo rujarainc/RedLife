@@ -1,11 +1,15 @@
 package com.rujara.health.redlife.utils;
 
+import com.rujara.health.redlife.R;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by deep.patel on 9/22/15.
@@ -37,4 +41,39 @@ public class AppUtils {
         }
         return object;
     }
+
+    public int getDrawableIconForBloodGroup(String bloodGroup) {
+        if (bloodGroup.equalsIgnoreCase("a+ve"))
+            return R.drawable.a_plus;
+        else if (bloodGroup.equalsIgnoreCase("a-ve"))
+            return R.drawable.a_minus;
+        else if (bloodGroup.equalsIgnoreCase("a-ve"))
+            return R.drawable.a_minus;
+        else if (bloodGroup.equalsIgnoreCase("b+ve"))
+            return R.drawable.b_plus;
+        else if (bloodGroup.equalsIgnoreCase("b-ve"))
+            return R.drawable.b_minus;
+        else if (bloodGroup.equalsIgnoreCase("ab+ve"))
+            return R.drawable.ab_plus;
+        else if (bloodGroup.equalsIgnoreCase("ab-ve"))
+            return R.drawable.ab_minus;
+        else if (bloodGroup.equalsIgnoreCase("o+ve"))
+            return R.drawable.o_plus;
+        else if (bloodGroup.equalsIgnoreCase("o-ve"))
+            return R.drawable.o_minus;
+
+        return 0;
+    }
+
+    public String getDate(long milliSeconds, String dateFormat) {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
+    }
+
 }
+

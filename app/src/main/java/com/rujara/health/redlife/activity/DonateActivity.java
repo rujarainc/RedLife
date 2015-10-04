@@ -113,6 +113,15 @@ public class DonateActivity extends AppCompatActivity implements INetworkListene
         return super.onOptionsItemSelected(item);
     }
 
+    protected void onResume() {
+        super.onResume();
+        networkInspector.start();
+    }
+
+    protected void onPause() {
+        super.onPause();
+        networkInspector.stop();
+    }
     @Override
     public void onNetworkConnected() {
         if (snackbar != null)

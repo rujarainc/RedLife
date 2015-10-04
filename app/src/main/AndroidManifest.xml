@@ -97,11 +97,11 @@
 
         <service
             android:name=".service.LocationUpdater"
-            android:exported="false"></service>
+            android:exported="false" />
         <service
             android:name=".service.MyService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
             android:name=".activity.ListDonors"
@@ -113,6 +113,13 @@
         <activity
             android:name=".activity.DonateActivity"
             android:label="@string/title_activity_donate">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rujara.health.redlife.activity.Dashboard" />
+        </activity>
+        <activity
+            android:name=".activity.ResponseActivity"
+            android:label="@string/title_activity_response">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rujara.health.redlife.activity.Dashboard" />
