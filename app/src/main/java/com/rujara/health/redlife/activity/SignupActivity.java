@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -53,7 +52,6 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
     GoogleCloudMessaging gcm = null;
     private Toolbar toolbar;
     private EditText inputName, inputEmail, inputPassword, inputPhoneNo;
-    private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword;
     private Button btnSignUp;
     private EditText dob;
     private NetworkInspector networkInspector = null;
@@ -66,11 +64,7 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
         myView = findViewById(R.id.signup_view);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         networkInspector = new NetworkInspector(this, this);
-        //setSupportActionBar(toolbar);
         sessionManager = new SessionManager(getApplicationContext());
-        inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
-        inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
-        inputLayoutPassword = (TextInputLayout) findViewById(R.id.input_layout_password);
         inputName = (EditText) findViewById(R.id.input_name);
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputPassword = (EditText) findViewById(R.id.input_password);
@@ -90,7 +84,6 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
                 onSelectDate();
             }
         });
-
     }
 
     @Override

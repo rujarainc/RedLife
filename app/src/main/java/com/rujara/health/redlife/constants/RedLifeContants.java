@@ -25,6 +25,10 @@ public class RedLifeContants {
     public static final String NOTIFY_LOCATION = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/locate";
     public static final String REQUEST = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/request";
     public static final String GET_MYACTION = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/getMyAction";
+    public static final String RESPOND = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/respond";
+    public static final String MATCHED_REQUEST = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/matchedRequests";
+    public static final String OTHER_REQUEST = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/otherRequests";
+    public static final String GET_RESPONSES = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/responses";
 
     public static final long NETWORK_INSPECTOR_THREAD_SLEEP_TIME = 2;
 
@@ -40,6 +44,18 @@ public class RedLifeContants {
     public static final String SERVER_AUTH_TOKEN = "serverAuthToken";
     public static final String PASSWORD = "password";
     public static final String DOB = "dob";
+    // Milliseconds per second
+    public static final int MILLISECONDS_PER_SECOND = 1000;
+    // The update interval
+    public static final int UPDATE_INTERVAL_IN_SECONDS = 5;
+    // A fast interval ceiling
+    public static final int FAST_CEILING_IN_SECONDS = 1;
+    // Update interval in milliseconds
+    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = MILLISECONDS_PER_SECOND
+            * UPDATE_INTERVAL_IN_SECONDS;
+    // A fast ceiling of update intervals, used when the app is visible
+    public static final long FAST_INTERVAL_CEILING_IN_MILLISECONDS = MILLISECONDS_PER_SECOND
+            * FAST_CEILING_IN_SECONDS;
     public static GoogleCloudMessaging GCM = null;
     public static boolean OPEN_HISTORY = false;
 }

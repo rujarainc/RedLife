@@ -1,8 +1,8 @@
 package com.rujara.health.redlife.fragment;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,11 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.rujara.health.redlife.R;
 import com.rujara.health.redlife.activity.ResponseActivity;
 import com.rujara.health.redlife.adapter.RowAdapterCardWithIcon;
-import com.rujara.health.redlife.classes.RequestObject;
+import com.rujara.health.redlife.classes.CardObject;
 import com.rujara.health.redlife.constants.RedLifeContants;
 import com.rujara.health.redlife.utils.AppUtils;
 import com.rujara.health.redlife.utils.SessionManager;
@@ -39,18 +40,15 @@ public class HistoryFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ProgressDialog progressDialog = null;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ArrayList<RequestObject> reqObject;
+    private TextView noRecordsText;
+    private ArrayList<CardObject> reqObject;
     public HistoryFragment() {
         // Required empty public constructor
-
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -59,31 +57,26 @@ public class HistoryFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.history_recycler_view);
         mRecyclerView.setHasFixedSize(true);
+        noRecordsText = (TextView) rootView.findViewById(R.id.textView6);
         mLayoutManager = new LinearLayoutManager(rootView.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new RowAdapterCardWithIcon(getDataSet());
-//        System.out.println(getDataSet());
+        mAdapter = new RowAdapterCardWithIcon(new ArrayList<CardObject>());
+
         mRecyclerView.setAdapter(mAdapter);
         final SessionManager sessionManager = new SessionManager(getActivity().getApplicationContext());
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.history_swipe_refresh_layout);
+        mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new EndpointCommunicationTask().execute(RedLifeContants.GET_MYACTION + "/" + sessionManager.getUserDetails().get("serverToken"));
-            }
-        });
-        ((RowAdapterCardWithIcon) mAdapter).setOnItemClickListener(new RowAdapterCardWithIcon.MyClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                Log.i("[rujara]", " Clicked on Item " + position);
-                Intent response = new Intent(getActivity(), ResponseActivity.class);
-                response.putExtra("requestId", reqObject.get(position).getId());
-                startActivity(response);
+                new EndpointCommunicationTask(false).execute(RedLifeContants.GET_MYACTION + "/" + sessionManager.getUserDetails().get("serverToken"));
             }
         });
 
-        new EndpointCommunicationTask().execute(RedLifeContants.GET_MYACTION + "/" + sessionManager.getUserDetails().get("serverToken"));
-        // Inflate the layout for this fragment
+
+        new EndpointCommunicationTask(true).execute(RedLifeContants.GET_MYACTION + "/" + sessionManager.getUserDetails().get("serverToken"));
+
         return rootView;
     }
 
@@ -101,21 +94,25 @@ public class HistoryFragment extends Fragment {
         super.onDetach();
     }
 
-    private ArrayList<RequestObject> getDataSet() {
-        ArrayList results = new ArrayList<RequestObject>();
-//        for (int index = 0; index < 20; index++) {
-//            RequestObject obj = new RequestObject(null, "Some Primary Text " + index,
-//                    "Secondary " + index, getResources().getDrawable(R.drawable.a_plus));
-//            results.add(index, obj);
-//        }
-        return results;
-    }
 
     private class EndpointCommunicationTask extends AsyncTask<String, Void, JSONObject> {
+        private boolean noRecords = false;
+
+        public EndpointCommunicationTask(boolean noRecords) {
+            this.noRecords = noRecords;
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // progressDialog = ProgressDialog.show(getActivity(), null, "Fetching actions ...", true);
+            if (mSwipeRefreshLayout != null && !mSwipeRefreshLayout.isRefreshing()) {
+                mSwipeRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(true);
+                    }
+                });
+            }
         }
 
         @Override
@@ -141,22 +138,39 @@ public class HistoryFragment extends Fragment {
         protected void onPostExecute(JSONObject response) {
             Log.v("[rujara]", "Response: " + response);
             try {
+                if (mSwipeRefreshLayout != null) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
                 if (response.has("status") && response.getInt("status") == 0) {
+                    noRecordsText.setVisibility(View.GONE);
                     JSONArray data = response.getJSONArray("data");
-                    reqObject = new ArrayList<RequestObject>();
+                    reqObject = new ArrayList<CardObject>();
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject temp = data.getJSONObject(i);
-                        reqObject.add(new RequestObject(temp.getString("id"), temp.getString("userAction"), new AppUtils().getDate(temp.getLong("actionTime"), "dd/MM/yyyy hh:mm:ss"), getResources().getDrawable(new AppUtils().getDrawableIconForBloodGroup(temp.getString(RedLifeContants.BLOOD_GROUP)))));
+                        reqObject.add(new CardObject(temp.getString("id"), temp.getString("userAction"), new AppUtils().getDate(temp.getLong("actionTime"), "dd/MM/yyyy hh:mm:ss"), getResources().getDrawable(new AppUtils().getDrawableIconForBloodGroup(temp.getString(RedLifeContants.BLOOD_GROUP)))));
                     }
+                    mAdapter = new RowAdapterCardWithIcon(reqObject);
+                    ((RowAdapterCardWithIcon) mAdapter).setOnItemClickListener(new RowAdapterCardWithIcon.MyClickListener() {
+                        @Override
+                        public void onItemClick(int position, View v) {
+                            Log.i("[rujara]", " Clicked on Item " + position);
+                            Intent response = new Intent(getActivity(), ResponseActivity.class);
+                            response.putExtra("requestId", reqObject.get(position).getId());
+                            startActivity(response);
+                        }
+                    });
+                    mRecyclerView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+
+                } else if (response.has("status") && response.getInt("status") == 5) {
+                    reqObject = new ArrayList<CardObject>();
                     mAdapter = new RowAdapterCardWithIcon(reqObject);
                     mRecyclerView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
-                    if (mSwipeRefreshLayout != null) {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
+                    noRecordsText.setVisibility(View.VISIBLE);
                 }
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
 
         }

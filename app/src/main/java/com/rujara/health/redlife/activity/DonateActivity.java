@@ -49,19 +49,18 @@ public class DonateActivity extends AppCompatActivity implements INetworkListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donate);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Donate");
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
 
         sessionManger = new SessionManager(getApplicationContext());
         sessionManger.checkLogin();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         myView = findViewById(R.id.donate_layout);
         networkInspector = new NetworkInspector(this, this);
-//        toolbar.setNavigationIcon(R.drawable.previous);
-//        toolbar.setTitle("Available Donors");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Donate");
+
         /**
          *Set an Apater for the View Pager
          */

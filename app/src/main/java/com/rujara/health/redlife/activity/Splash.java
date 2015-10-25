@@ -38,6 +38,7 @@ public class Splash extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         sessionManager = new SessionManager(getApplicationContext());
         userDetails = UserDetails.getInstance();
+        Log.d("[rujara]", "Logged In" + sessionManager.isLoggedIn());
         if (!sessionManager.isLoggedIn()) {
             new Handler().postDelayed(new Runnable() {
                 @Override

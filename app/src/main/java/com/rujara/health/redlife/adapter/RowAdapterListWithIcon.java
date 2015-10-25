@@ -9,19 +9,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rujara.health.redlife.R;
-import com.rujara.health.redlife.classes.RequestObject;
+import com.rujara.health.redlife.classes.CardObject;
 
 import java.util.ArrayList;
 
 /**
  * Created by deep.patel on 9/23/15.
  */
-public class RowAdapterListWithIcon extends ArrayAdapter<RequestObject> {
+public class RowAdapterListWithIcon extends ArrayAdapter<CardObject> {
 
     private final Context context;
-    private final ArrayList<RequestObject> modelsArrayList;
+    private final ArrayList<CardObject> modelsArrayList;
 
-    public RowAdapterListWithIcon(Context context, ArrayList<RequestObject> modelsArrayList) {
+    public RowAdapterListWithIcon(Context context, ArrayList<CardObject> modelsArrayList) {
 
         super(context, R.layout.list_withicon_row, modelsArrayList);
         this.context = context;
@@ -45,7 +45,7 @@ public class RowAdapterListWithIcon extends ArrayAdapter<RequestObject> {
         TextView counterView = (TextView) rowView.findViewById(R.id.textView2);
 
         // 4. Set the text for textView
-        imgView.setImageDrawable(modelsArrayList.get(position).getBloodGroupIcon());
+//        imgView.setImageDrawable(modelsArrayList.get(position).getCardIcon());
         titleView.setText(modelsArrayList.get(position).getmText1());
         counterView.setText(modelsArrayList.get(position).getmText2());
         // 5. retrn rowView

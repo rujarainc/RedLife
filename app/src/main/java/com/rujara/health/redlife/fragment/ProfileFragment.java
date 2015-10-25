@@ -3,17 +3,16 @@ package com.rujara.health.redlife.fragment;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.rujara.health.redlife.R;
+import com.rujara.health.redlife.store.UserDetails;
 
 import java.util.Calendar;
 
@@ -21,42 +20,38 @@ import java.util.Calendar;
  * Created by deep.patel on 9/18/15.
  */
 public class ProfileFragment extends Fragment {
-
-
     private Toolbar toolbar;
-    private EditText inputName, inputEmail, inputPassword;
-    private TextInputLayout inputLayoutName, inputLayoutEmail, inputLayoutPassword;
-    private Button btnSignUp;
-    private EditText dob;
+    private TextView inputName, inputEmail, inputPassword, inputBloodgroup, inputPhone;
+    private TextView dob;
     public ProfileFragment() {
         // Required empty public constructor
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        inputLayoutName = (TextInputLayout) rootView.findViewById(R.id.input_layout_name);
-        inputLayoutEmail = (TextInputLayout) rootView.findViewById(R.id.input_layout_email);
-        inputLayoutPassword = (TextInputLayout) rootView.findViewById(R.id.input_layout_password);
-        inputName = (EditText) rootView.findViewById(R.id.input_name);
-        inputEmail = (EditText) rootView.findViewById(R.id.input_email);
-        inputPassword = (EditText) rootView.findViewById(R.id.input_password);
-        dob = (EditText) rootView.findViewById(R.id.input_dob);
-        btnSignUp = (Button) rootView.findViewById(R.id.btn_update);
-
+        inputName = (TextView) rootView.findViewById(R.id.input_name);
+        inputEmail = (TextView) rootView.findViewById(R.id.input_email);
+        inputPassword = (TextView) rootView.findViewById(R.id.input_password);
+        dob = (TextView) rootView.findViewById(R.id.input_dob);
+        inputBloodgroup = (TextView) rootView.findViewById(R.id.input_bloodgroup);
+        inputPhone = (TextView) rootView.findViewById(R.id.input_phone);
+//        btnSignUp = (Button) rootView.findViewById(R.id.btn_update);
+        UserDetails userDetails = UserDetails.getInstance();
+        inputName.setText(userDetails.getName());
+        inputEmail.setText(userDetails.getEmailId());
+        dob.setText(userDetails.getDob());
+        inputPhone.setText(userDetails.getPhoneNumber());
+        inputBloodgroup.setText(userDetails.getBloodGroup());
         dob.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(hasFocus)
+                if (hasFocus)
                     onSelectDate(rootView);
             }
         });
@@ -64,12 +59,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 onSelectDate(rootView);
-            }
-        });
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //submitForm();
             }
         });
 

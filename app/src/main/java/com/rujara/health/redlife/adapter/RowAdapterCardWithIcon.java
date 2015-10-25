@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.rujara.health.redlife.R;
-import com.rujara.health.redlife.classes.RequestObject;
+import com.rujara.health.redlife.classes.CardObject;
 
 import java.util.ArrayList;
 
@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class RowAdapterCardWithIcon extends RecyclerView
         .Adapter<RowAdapterCardWithIcon.RequestObjectHolder> {
     private static MyClickListener myClickListener;
-    private ArrayList<RequestObject> mDataset;
+    private ArrayList<CardObject> mDataset;
 
-    public RowAdapterCardWithIcon(ArrayList<RequestObject> myDataset) {
+    public RowAdapterCardWithIcon(ArrayList<CardObject> myDataset) {
         mDataset = myDataset;
     }
 
@@ -41,11 +41,12 @@ public class RowAdapterCardWithIcon extends RecyclerView
     @Override
     public void onBindViewHolder(RequestObjectHolder holder, int position) {
         holder.label.setText(mDataset.get(position).getmText1());
-        holder.dateTime.setText(mDataset.get(position).getmText2());
-        holder.icon.setImageDrawable(mDataset.get(position).getBloodGroupIcon());
+        holder.label2.setText(mDataset.get(position).getmText2());
+        holder.label3.setText(mDataset.get(position).getmText3());
+        holder.icon.setImageDrawable(mDataset.get(position).getCardIcon());
     }
 
-    public void addItem(RequestObject dataObj, int index) {
+    public void addItem(CardObject dataObj, int index) {
         mDataset.add(index, dataObj);
         notifyItemInserted(index);
     }
@@ -68,13 +69,15 @@ public class RowAdapterCardWithIcon extends RecyclerView
             implements View
             .OnClickListener {
         TextView label;
-        TextView dateTime;
+        TextView label2;
+        TextView label3;
         ImageView icon;
 
         public RequestObjectHolder(View itemView) {
             super(itemView);
             label = (TextView) itemView.findViewById(R.id.textView);
-            dateTime = (TextView) itemView.findViewById(R.id.textView2);
+            label2 = (TextView) itemView.findViewById(R.id.textView2);
+            label3 = (TextView) itemView.findViewById(R.id.textView3);
             icon = (ImageView) itemView.findViewById(R.id.cardIcon);
             itemView.setOnClickListener(this);
         }

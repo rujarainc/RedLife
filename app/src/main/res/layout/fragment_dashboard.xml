@@ -10,10 +10,11 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         app:tabGravity="fill"
-        app:tabIndicatorColor="#F50057"
+        app:tabIndicatorColor="@color/windowBackground"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabSelectedTextColor="@color/windowBackground"
         app:tabTextColor="@color/colorAccent">
     </android.support.design.widget.TabLayout>
 

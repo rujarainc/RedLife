@@ -20,95 +20,282 @@
                     android:src="@drawable/ic_profile" />
 
             </RelativeLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="20dp">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_name"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/input_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center_vertical"
+                    android:hint="Name Goes here"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="45dp"
+                    android:paddingTop="6dp"
+                    android:textSize="18sp" />
 
-                    <EditText
-                        android:id="@+id/input_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_name"
-                        android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_email"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_social_person" />
 
-                    <EditText
-                        android:id="@+id/input_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_email"
-                        android:inputType="textEmailAddress" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_phone"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_editor_mode_edit" />
+            </RelativeLayout>
 
-                    <EditText
-                        android:id="@+id/input_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_phone"
-                        android:inputType="phone" />
-                </android.support.design.widget.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_dob"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/input_email"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center_vertical"
+                    android:hint="Enter sample text..."
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="45dp"
+                    android:paddingTop="6dp"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_communication_email" />
 
-                    <EditText
-                        android:id="@+id/input_dob"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_dob"
-                        android:inputType="date" />
-                </android.support.design.widget.TextInputLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_editor_mode_edit" />
+            </RelativeLayout>
 
-                <!--<android.support.design.widget.TextInputLayout-->
-                    <!--android:id="@+id/input_layout_bg"-->
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/input_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center_vertical"
+                    android:hint="Enter sample text..."
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="45dp"
+                    android:paddingTop="6dp"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_communication_phone" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_editor_mode_edit" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/input_dob"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center_vertical"
+                    android:hint="Enter sample text..."
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="45dp"
+                    android:paddingTop="6dp"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_action_perm_contact_cal" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_editor_mode_edit" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/input_bloodgroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center_vertical"
+                    android:hint="Enter sample text..."
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="45dp"
+                    android:paddingTop="6dp"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_action_invert_colors" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_editor_mode_edit" />
+            </RelativeLayout>
+
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingLeft="20dp"-->
+            <!--android:paddingRight="20dp"-->
+            <!--android:paddingTop="20dp">-->
+
+            <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:id="@+id/input_layout_name"-->
                     <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/input_name"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="@string/hint_name"-->
+            <!--android:singleLine="true" />-->
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+            <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:id="@+id/input_layout_email"-->
+            <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
                     <!--android:layout_marginTop="15dp">-->
 
-                    <!--<DropDownListView-->
-                        <!--android:id="@+id/input_bg"-->
+            <!--<EditText-->
+            <!--android:id="@+id/input_email"-->
                         <!--android:layout_width="match_parent"-->
                         <!--android:layout_height="wrap_content"-->
+            <!--android:hint="@string/hint_email"-->
+            <!--android:inputType="textEmailAddress" />-->
+            <!--</android.support.design.widget.TextInputLayout>-->
 
+            <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:id="@+id/input_layout_phone"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="15dp">-->
 
-                        <!--android:entries="@array/bloodgroup"/>-->
+            <!--<EditText-->
+            <!--android:id="@+id/input_phone"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="@string/hint_phone"-->
+            <!--android:inputType="phone" />-->
                 <!--</android.support.design.widget.TextInputLayout>-->
 
-                <Button android:id="@+id/btn_update"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp"
-                    android:layout_marginTop="40dp"
-                    android:background="@color/colorPrimary"
-                    android:text="@string/btn_update"
-                    android:textColor="@android:color/white"/>
-                android:textColor="@android:color/white"/>
+            <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:id="@+id/input_layout_dob"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="15dp">-->
 
-            </LinearLayout>
+            <!--<EditText-->
+            <!--android:id="@+id/input_dob"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:hint="@string/hint_dob"-->
+            <!--android:inputType="date" />-->
+            <!--</android.support.design.widget.TextInputLayout>-->
+
+            <!--<Button android:id="@+id/btn_update"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="40dp"-->
+            <!--android:layout_marginTop="40dp"-->
+            <!--android:background="@color/colorPrimary"-->
+            <!--android:text="@string/btn_update"-->
+            <!--android:textColor="@android:color/white"/>-->
+
+            <!--</LinearLayout>-->
         </LinearLayout>
 </ScrollView>
 

@@ -26,7 +26,9 @@
             android:layout_marginLeft="15dp"
             android:layout_toEndOf="@+id/listIcon"
             android:layout_toRightOf="@+id/listIcon"
-            android:text="Mr.Deep R. Patel"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text=""
             android:textStyle="bold" />
 
         <TextView
@@ -37,6 +39,8 @@
             android:layout_alignStart="@+id/textView"
             android:layout_centerVertical="true"
             android:layout_marginTop="3dp"
-            android:text="Kundanhalli Gate, Bangalore" />
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="" />
     </RelativeLayout>
 </LinearLayout>

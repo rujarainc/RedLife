@@ -72,6 +72,7 @@ public class ListDonors extends AppCompatActivity implements LocationListener, I
         sessionManger = new SessionManager(getApplicationContext());
         sessionManger.checkLogin();
         networkInspector = new NetworkInspector(this, this);
+
 //        toolbar.setNavigationIcon(R.drawable.previous);
 //        toolbar.setTitle("Available Donors");
         setSupportActionBar(toolbar);
@@ -168,6 +169,7 @@ public class ListDonors extends AppCompatActivity implements LocationListener, I
         }
     }
 
+    @Override
     protected void onPause() {
         super.onPause();
         networkInspector.stop();

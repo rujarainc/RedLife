@@ -21,11 +21,12 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:elevation="5dp"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorColor="@color/windowBackground"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/colorAccent"
+        app:tabSelectedTextColor="@color/windowBackground"
         app:tabTextColor="@color/colorAccent"></android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
