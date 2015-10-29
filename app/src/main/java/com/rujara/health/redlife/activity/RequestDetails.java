@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,17 +27,9 @@ import com.rujara.health.redlife.R;
 import com.rujara.health.redlife.constants.RedLifeContants;
 import com.rujara.health.redlife.networks.INetworkListener;
 import com.rujara.health.redlife.networks.NetworkInspector;
-import com.rujara.health.redlife.store.UserDetails;
-import com.rujara.health.redlife.utils.AppUtils;
+import com.rujara.health.redlife.networks.Signout;
 import com.rujara.health.redlife.utils.SessionManager;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
-
-import java.io.InputStream;
 import java.util.List;
 
 public class RequestDetails extends AppCompatActivity implements LocationListener, INetworkListener {
@@ -75,7 +65,7 @@ public class RequestDetails extends AppCompatActivity implements LocationListene
         inputEmail.setText(requestEmail);
         inputPhone.setText(requestPhone);
         fromEmail = requestEmail;
-        myView = findViewById(R.id.request_details_layout);
+        myView = findViewById(R.id.response_details_layout_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         sessionManger = new SessionManager(getApplicationContext());
         sessionManger.checkLogin();
@@ -134,7 +124,7 @@ public class RequestDetails extends AppCompatActivity implements LocationListene
             System.out.println(
                     RedLifeContants.SIGNOUT + "/" + sessionManger.getUserDetails().get("serverToken")
             );
-            new SignoutTask().execute(RedLifeContants.SIGNOUT + "/" + sessionManger.getUserDetails().get("serverToken"));
+            new Signout().execute(sessionManger.getUserDetails().get("serverToken"));
             sessionManger.logoutUser();
         }
         if (id == android.R.id.home) {
@@ -262,38 +252,5 @@ public class RequestDetails extends AppCompatActivity implements LocationListene
 
     public void onLater(View view) {
         NavUtils.navigateUpFromSameTask(this);
-    }
-
-    private class SignoutTask extends AsyncTask<String, Void, JSONObject> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONObject response = null;
-            try {
-                InputStream inputStream = null;
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(args[0]);
-                httpGet.setHeader("Accept", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpGet);
-                inputStream = httpResponse.getEntity().getContent();
-                if (inputStream != null)
-                    response = new AppUtils().convertInputStreamToJson(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject response) {
-            Log.v("[rujara]", "Response: " + response);
-            UserDetails.getInstance().resetUser();
-
-        }
     }
 }

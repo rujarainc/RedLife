@@ -20,24 +20,19 @@ import android.widget.Toast;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.rujara.health.redlife.R;
 import com.rujara.health.redlife.constants.RedLifeContants;
+import com.rujara.health.redlife.networks.Communicator;
+import com.rujara.health.redlife.networks.IAsyncTask;
 import com.rujara.health.redlife.networks.INetworkListener;
 import com.rujara.health.redlife.networks.NetworkInspector;
 import com.rujara.health.redlife.store.UserDetails;
-import com.rujara.health.redlife.utils.AppUtils;
 import com.rujara.health.redlife.utils.SessionManager;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-public class LoginActivity extends AppCompatActivity implements INetworkListener {
+public class LoginActivity extends AppCompatActivity implements INetworkListener, IAsyncTask {
 
     Snackbar snackbar = null;
     GoogleCloudMessaging gcm = null;
@@ -50,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
     private JSONObject data = new JSONObject();
     private ProgressDialog progressDialog = null;
     private UserDetails userDetails = null;
-
+    private Communicator communicator = new Communicator(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +100,8 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
         try {
             data.put(RedLifeContants.EMAILID, email);
             data.put(RedLifeContants.PASSWORD, password);
-            new EndpointCommunicationTask().execute(RedLifeContants.AUTHENTICATION);
+//            new EndpointCommunicationTask().execute(RedLifeContants.AUTHENTICATION);
+            authenticateUser(RedLifeContants.AUTHENTICATION, data);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -180,41 +176,23 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
         networkInspector.stop();
     }
 
-    private class EndpointCommunicationTask extends AsyncTask<String, Void, JSONObject> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = ProgressDialog.show(LoginActivity.this, null, "Authenticating ...", true);
-        }
+    private void authenticateUser(String url, JSONObject requestData) {
+        communicator.communicate(1, url, requestData);
+    }
 
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONObject response = null;
-            try {
-                InputStream inputStream = null;
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(args[0]);
-                String json = "";
-                json = data.toString();
-                Log.v("[rujara]", "Req: " + json);
-                StringEntity se = new StringEntity(json);
-                httpPost.setEntity(se);
-                httpPost.setHeader("Accept", "application/json");
-                httpPost.setHeader("Content-type", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpPost);
-                inputStream = httpResponse.getEntity().getContent();
-                if (inputStream != null)
-                    response = new AppUtils().convertInputStreamToJson(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-            return response;
-        }
+    private void notifyEventRegisteration(String url, JSONObject data) {
+        communicator.communicate(2, url, data);
+    }
 
-        @Override
-        protected void onPostExecute(JSONObject response) {
-            Log.v("[rujara]", "Response: " + response);
+    @Override
+    public void onPreExecute(int taskId) {
+        if (taskId == 1)
+            progressDialog = ProgressDialog.show(LoginActivity.this, null, "Authenticate ...", true);
+    }
+
+    @Override
+    public void onPostExecute(int taskId, JSONObject response) {
+        if (taskId == 1) {
             try {
                 if (response.has("status") && response.getInt("status") == 0) {
                     new RegisterGcmTask().execute();
@@ -234,7 +212,6 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
                     if (data.has(RedLifeContants.SERVER_AUTH_TOKEN))
                         userDetails.setServerAuthToken(data.getString(RedLifeContants.SERVER_AUTH_TOKEN));
                     progressDialog.dismiss();
-                    System.out.println("LOGIN TOKEN:" + userDetails.getServerAuthToken());
                     sessionManager.createLoginSession(userDetails.getEmailId(), userDetails.getServerAuthToken());
                     Intent dashboard = new Intent(LoginActivity.this, Dashboard.class);
                     startActivity(dashboard);
@@ -258,9 +235,10 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if (taskId == 2) {
+            finish();
         }
     }
-
     private class RegisterGcmTask extends AsyncTask<Void, Void, String> {
         String msg = "";
 
@@ -290,46 +268,7 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            new NotifyEventRegIdTask().execute(RedLifeContants.NOTIFY + "/" + userDetails.getServerAuthToken());
-        }
-    }
-
-    private class NotifyEventRegIdTask extends AsyncTask<String, Void, JSONObject> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONObject response = null;
-            try {
-                InputStream inputStream = null;
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(args[0]);
-                String json = "";
-                json = data.toString();
-                Log.v("[rujara]", "Req: " + json);
-                StringEntity se = new StringEntity(json);
-                httpPost.setEntity(se);
-                httpPost.setHeader("Accept", "application/json");
-                httpPost.setHeader("Content-type", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpPost);
-                inputStream = httpResponse.getEntity().getContent();
-                if (inputStream != null)
-                    response = new AppUtils().convertInputStreamToJson(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject response) {
-            Log.v("[rujara]", "Response: " + response);
-
-            finish();
+            notifyEventRegisteration(RedLifeContants.NOTIFY + "/" + userDetails.getServerAuthToken(), data);
         }
     }
 }

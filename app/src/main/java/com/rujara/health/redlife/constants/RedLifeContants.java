@@ -58,4 +58,8 @@ public class RedLifeContants {
             * FAST_CEILING_IN_SECONDS;
     public static GoogleCloudMessaging GCM = null;
     public static boolean OPEN_HISTORY = false;
+
+    public static enum COM_METHOD {
+        GET, POST
+    }
 }

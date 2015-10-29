@@ -156,6 +156,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rujara.health.redlife.activity.ResponseActivity" />
         </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="19d25f00505bd9185671a4197c9d781efa1d75d6" />
     </application>
 
 </manifest>

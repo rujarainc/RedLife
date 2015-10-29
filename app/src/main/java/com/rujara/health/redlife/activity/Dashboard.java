@@ -1,7 +1,6 @@
 package com.rujara.health.redlife.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -18,24 +17,15 @@ import android.widget.TextView;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.rujara.health.redlife.R;
 import com.rujara.health.redlife.constants.RedLifeContants;
-import com.rujara.health.redlife.fragment.DashboardFragment;
+import com.rujara.health.redlife.fragment.DashBoard_New;
 import com.rujara.health.redlife.fragment.FragmentDrawer;
-import com.rujara.health.redlife.fragment.MedicalRecordFragment;
+import com.rujara.health.redlife.fragment.HistoryFragment;
 import com.rujara.health.redlife.fragment.ProfileFragment;
 import com.rujara.health.redlife.networks.INetworkListener;
 import com.rujara.health.redlife.networks.NetworkInspector;
+import com.rujara.health.redlife.networks.Signout;
 import com.rujara.health.redlife.service.MyService;
-import com.rujara.health.redlife.store.UserDetails;
-import com.rujara.health.redlife.utils.AppUtils;
 import com.rujara.health.redlife.utils.SessionManager;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
-
-import java.io.InputStream;
 
 /**
  * Created by deep.patel on 9/18/15.
@@ -92,7 +82,7 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
             System.out.println(
                     RedLifeContants.SIGNOUT + "/" + sessionManger.getUserDetails().get("serverToken")
             );
-            new SignoutTask().execute(RedLifeContants.SIGNOUT + "/" + sessionManger.getUserDetails().get("serverToken"));
+            new Signout().execute(sessionManger.getUserDetails().get("serverToken"));
             sessionManger.logoutUser();
         }
         return super.onOptionsItemSelected(item);
@@ -107,7 +97,7 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
         String title = getString(R.string.app_name);
         switch (position) {
             case 0:
-                fragment = new DashboardFragment();
+                fragment = new DashBoard_New();
                 title = getString(R.string.title_dashboard);
                 break;
             case 1:
@@ -115,7 +105,7 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
                 title = getString(R.string.title_profile);
                 break;
             case 2:
-                fragment = new MedicalRecordFragment();
+                fragment = new HistoryFragment();
                 title = getString(R.string.title_medical_record);
                 break;
             default:
@@ -160,7 +150,7 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
         networkInspector.stop();
     }
 
-    public void onSearchDonors(View view) {
+    public void onRequest(View view) {
         Intent donorList = new Intent(this, MapActivity.class);
         donorList.putExtra("makeRequest", true);
         startActivity(donorList);
@@ -169,37 +159,5 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
     public void onDonate(View view) {
         Intent donorList = new Intent(this, DonateActivity.class);
         startActivity(donorList);
-    }
-
-    private class SignoutTask extends AsyncTask<String, Void, JSONObject> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONObject response = null;
-            try {
-                InputStream inputStream = null;
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(args[0]);
-                httpGet.setHeader("Accept", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpGet);
-                inputStream = httpResponse.getEntity().getContent();
-                if (inputStream != null)
-                    response = new AppUtils().convertInputStreamToJson(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject response) {
-            Log.v("[rujara]", "Response: " + response);
-            UserDetails.getInstance().resetUser();
-        }
     }
 }

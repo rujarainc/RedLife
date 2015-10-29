@@ -347,7 +347,6 @@ public class MapActivity extends FragmentActivity implements LocationListener,
 
         @Override
         protected void onPostExecute(String result) {
-
             try {
                 Address.setText(addresses.get(0).getAddressLine(0)
                         + ", " + addresses.get(0).getAddressLine(1) + " ");

@@ -3,13 +3,11 @@ package com.rujara.health.redlife.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,20 +19,17 @@ import com.rujara.health.redlife.activity.RequestDetails;
 import com.rujara.health.redlife.adapter.RowAdapterCardWithIcon;
 import com.rujara.health.redlife.classes.CardObject;
 import com.rujara.health.redlife.constants.RedLifeContants;
+import com.rujara.health.redlife.networks.Communicator;
+import com.rujara.health.redlife.networks.IAsyncTask;
 import com.rujara.health.redlife.utils.AppUtils;
 import com.rujara.health.redlife.utils.SessionManager;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
-public class OtherRequest extends Fragment {
+public class OtherRequest extends Fragment implements IAsyncTask {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -43,7 +38,8 @@ public class OtherRequest extends Fragment {
     private RelativeLayout relativeLayout;
     private TextView noRecordsText;
     private ArrayList<CardObject> reqObject;
-
+    private Communicator communicator = new Communicator(this);
+    private SessionManager sessionManager;
     public OtherRequest() {
         // Required empty public constructor
     }
@@ -58,14 +54,14 @@ public class OtherRequest extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_other_request, container, false);
-        final SessionManager sessionManager = new SessionManager(getActivity().getApplicationContext());
+        sessionManager = new SessionManager(getActivity().getApplicationContext());
         noRecordsText = (TextView) rootView.findViewById(R.id.noRecordsFound);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.other_request_swipelayout);
         swipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new EndpointCommunicationTask().execute(RedLifeContants.OTHER_REQUEST + "/" + sessionManager.getUserDetails().get(SessionManager.SERVER_TOKEN));
+                getOtherRequest();
             }
         });
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.other_request_recycler_view);
@@ -75,7 +71,7 @@ public class OtherRequest extends Fragment {
         mAdapter = new RowAdapterCardWithIcon(new ArrayList<CardObject>());
         mRecyclerView.setAdapter(mAdapter);
 
-        new EndpointCommunicationTask().execute(RedLifeContants.OTHER_REQUEST + "/" + sessionManager.getUserDetails().get(SessionManager.SERVER_TOKEN));
+        getOtherRequest();
         return rootView;
     }
 
@@ -100,11 +96,13 @@ public class OtherRequest extends Fragment {
         return results;
     }
 
+    private void getOtherRequest() {
+        communicator.communicate(1, RedLifeContants.OTHER_REQUEST + "/" + sessionManager.getUserDetails().get(SessionManager.SERVER_TOKEN));
+    }
 
-    private class EndpointCommunicationTask extends AsyncTask<String, Void, JSONObject> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+    @Override
+    public void onPreExecute(int taskId) {
+        if (taskId == 1) {
             if (swipeRefreshLayout != null && !swipeRefreshLayout.isRefreshing()) {
                 swipeRefreshLayout.post(new Runnable() {
                     @Override
@@ -114,29 +112,11 @@ public class OtherRequest extends Fragment {
                 });
             }
         }
+    }
 
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONObject response = null;
-            try {
-                InputStream inputStream = null;
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(args[0]);
-                httpGet.setHeader("Accept", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpGet);
-                inputStream = httpResponse.getEntity().getContent();
-                if (inputStream != null)
-                    response = new AppUtils().convertInputStreamToJson(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject response) {
-            Log.v("[rujara]", "Response: " + response);
+    @Override
+    public void onPostExecute(int taskId, JSONObject response) {
+        if (taskId == 1) {
             try {
                 if (swipeRefreshLayout != null) {
                     swipeRefreshLayout.setRefreshing(false);
@@ -185,17 +165,6 @@ public class OtherRequest extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
-//
-//    mRecyclerView.setOnScrollListener(new ScrollListenerImpl(getActivity().getApplicationContext()) {
-//        @Override
-//        public void onMoved(int distance) {
-//            android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) getActivity().findViewById(R.id.toolbar);
-//            TabLayout tabLayout = (TabLayout) getActivity().findViewById(R.id.tabs);
-//            toolbar.setTranslationY(-distance);
-//            tabLayout.setTranslationY(-distance);
-//        }
-//    });
 }

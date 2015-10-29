@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
@@ -23,29 +22,25 @@ import com.rujara.health.redlife.R;
 import com.rujara.health.redlife.adapter.RowAdapterListWithIcon;
 import com.rujara.health.redlife.classes.CardObject;
 import com.rujara.health.redlife.constants.RedLifeContants;
+import com.rujara.health.redlife.networks.Communicator;
+import com.rujara.health.redlife.networks.IAsyncTask;
 import com.rujara.health.redlife.networks.INetworkListener;
 import com.rujara.health.redlife.networks.NetworkInspector;
+import com.rujara.health.redlife.networks.Signout;
 import com.rujara.health.redlife.store.UserDetails;
-import com.rujara.health.redlife.utils.AppUtils;
 import com.rujara.health.redlife.utils.SessionManager;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResponseActivity extends AppCompatActivity implements INetworkListener {
+public class ResponseActivity extends AppCompatActivity implements INetworkListener, IAsyncTask {
     //    private RecyclerView mRecyclerView;
 //    private RecyclerView.Adapter mAdapter;
 //    private RecyclerView.LayoutManager mLayoutManager;
+    private Communicator communicator = new Communicator(this);
     private RowAdapterListWithIcon mAdapter;
     private ListView mListView;
     private NetworkInspector networkInspector = null;
@@ -63,6 +58,7 @@ public class ResponseActivity extends AppCompatActivity implements INetworkListe
     private ArrayList<CardObject> resObject;
     private TextView noRecordsText;
     private boolean makeRequest;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,12 +77,12 @@ public class ResponseActivity extends AppCompatActivity implements INetworkListe
             makeRequest();
         } else {
             requestId = getIntent().getStringExtra("requestId");
-            new GetResponses().execute(RedLifeContants.GET_RESPONSES + "/" + sessionManger.getUserDetails().get(SessionManager.SERVER_TOKEN) + "/" + requestId);
+            getResponse(RedLifeContants.GET_RESPONSES + "/" + sessionManger.getUserDetails().get(SessionManager.SERVER_TOKEN) + "/" + requestId);
         }
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new GetResponses().execute(RedLifeContants.GET_RESPONSES + "/" + sessionManger.getUserDetails().get(SessionManager.SERVER_TOKEN) + "/" + requestId);
+                getResponse(RedLifeContants.GET_RESPONSES + "/" + sessionManger.getUserDetails().get(SessionManager.SERVER_TOKEN) + "/" + requestId);
             }
         });
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -128,7 +124,7 @@ public class ResponseActivity extends AppCompatActivity implements INetworkListe
         }
 
         if (id == R.id.action_logout) {
-            new SignoutTask().execute(RedLifeContants.SIGNOUT + "/" + sessionManger.getUserDetails().get("serverToken"));
+            new Signout().execute(sessionManger.getUserDetails().get("serverToken"));
             sessionManger.logoutUser();
         }
         if (id == android.R.id.home) {
@@ -195,10 +191,15 @@ public class ResponseActivity extends AppCompatActivity implements INetworkListe
             }
             data.put("location", new JSONObject().put("lat", lat).put("lon", lon).put("providedBy", locationProvidedBy).put("locationString", locationString));
             data.put("details", details);
-            new MakeRequest().execute(RedLifeContants.REQUEST + "/" + sessionManger.getUserDetails().get("serverToken"));
+            communicator.communicate(1, RedLifeContants.REQUEST + "/" + sessionManger.getUserDetails().get("serverToken"), data);
+//            new MakeRequest().execute(RedLifeContants.REQUEST + "/" + sessionManger.getUserDetails().get("serverToken"));
         } catch (Exception e) {
             Log.e("[rujara]", "Error creating request json", e);
         }
+    }
+
+    private void getResponse(String url) {
+        communicator.communicate(2, url);
     }
 
     private Location getLastKnownLocation(LocationManager mLocationManager) {
@@ -222,82 +223,11 @@ public class ResponseActivity extends AppCompatActivity implements INetworkListe
         return bestLocation;
     }
 
-    private class SignoutTask extends AsyncTask<String, Void, JSONObject> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONObject response = null;
-            try {
-                InputStream inputStream = null;
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(args[0]);
-                httpGet.setHeader("Accept", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpGet);
-                inputStream = httpResponse.getEntity().getContent();
-                if (inputStream != null)
-                    response = new AppUtils().convertInputStreamToJson(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject response) {
-            Log.v("[rujara]", "Response: " + response);
-            UserDetails.getInstance().resetUser();
-        }
-    }
-
-    private class MakeRequest extends AsyncTask<String, Void, JSONObject> {
-        ProgressDialog progressDialog;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+    @Override
+    public void onPreExecute(int taskId) {
+        if (taskId == 1) {
             progressDialog = ProgressDialog.show(ResponseActivity.this, null, "Posting Request ...", true);
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONObject response = null;
-            try {
-                InputStream inputStream = null;
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(args[0]);
-                String json = "";
-                json = data.toString();
-                Log.v("[rujara]", "Req: " + json);
-                StringEntity se = new StringEntity(json);
-                httpPost.setEntity(se);
-                httpPost.setHeader("Accept", "application/json");
-                httpPost.setHeader("Content-type", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpPost);
-                inputStream = httpResponse.getEntity().getContent();
-                if (inputStream != null)
-                    response = new AppUtils().convertInputStreamToJson(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject response) {
-            Log.v("[rujara]", "Response: " + response);
-            progressDialog.dismiss();
-        }
-    }
-
-
-    private class GetResponses extends AsyncTask<String, Void, JSONObject> {
-        @Override
-        protected void onPreExecute() {
+        } else if (taskId == 2) {
             if (swipeRefreshLayout != null && !swipeRefreshLayout.isRefreshing()) {
                 swipeRefreshLayout.post(new Runnable() {
                     @Override
@@ -307,29 +237,13 @@ public class ResponseActivity extends AppCompatActivity implements INetworkListe
                 });
             }
         }
+    }
 
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONObject response = null;
-            try {
-                InputStream inputStream = null;
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(args[0]);
-                httpGet.setHeader("Accept", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpGet);
-                inputStream = httpResponse.getEntity().getContent();
-                if (inputStream != null)
-                    response = new AppUtils().convertInputStreamToJson(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(final JSONObject response) {
-            Log.v("[rujara]", "Response: " + response);
+    @Override
+    public void onPostExecute(int taskId, JSONObject response) {
+        if (taskId == 1) {
+            progressDialog.dismiss();
+        } else if (taskId == 2) {
             swipeRefreshLayout.setRefreshing(false);
             try {
                 if (response.has("status") && response.getInt("status") == 0) {

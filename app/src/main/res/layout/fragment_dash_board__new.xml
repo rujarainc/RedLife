@@ -1,0 +1,146 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.rujara.health.redlife.fragment.DashBoard_New">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <RelativeLayout
+            android:id="@+id/relativeDashboard"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.4"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:minHeight="130dp"
+                android:minWidth="130dp"
+                android:src="@drawable/a_plus" />
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="25dp"-->
+            <!--android:textColor="@color/windowBackground"-->
+            <!--android:text="Red Life"-->
+            <!--android:id="@+id/textView7"-->
+            <!--android:layout_above="@+id/imageView3"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_centerHorizontal="true" android:textStyle="bold"/>-->
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6"
+            android:background="@color/windowBackground"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="80dp"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:onClick="onRequest">
+
+                <ImageView
+                    android:id="@+id/listIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/search_glass_primary" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/textView2"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toEndOf="@+id/listIcon"
+                    android:layout_toRightOf="@+id/listIcon"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+
+                    android:text="Request Blood Group"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/listIcon"
+                    android:layout_alignLeft="@+id/textView"
+                    android:layout_alignStart="@+id/textView"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="Any required group" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/seperator"
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/colorAccent" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="80dp"
+                android:layout_margin="5dp"
+                android:clickable="true"
+                android:onClick="onDonate">
+
+                <ImageView
+                    android:id="@+id/listIcon2"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/blood_drop" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/textView4"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toEndOf="@+id/listIcon2"
+                    android:layout_toRightOf="@+id/listIcon2"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+
+                    android:text="Donate Blood"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/listIcon2"
+                    android:layout_alignLeft="@+id/textView3"
+                    android:layout_alignStart="@+id/textView3"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="Checkout list of blood requests" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/seperator2"
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/colorAccent" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

@@ -43,10 +43,6 @@ public class AppUtils {
     }
 
     public int getDrawableIconForBloodGroup(String bloodGroup) {
-        System.out.println(
-                bloodGroup
-        );
-        System.out.println(bloodGroup.equalsIgnoreCase("a+ve"));
         if (bloodGroup.equalsIgnoreCase("a+ve"))
             return R.drawable.a_plus;
         else if (bloodGroup.equalsIgnoreCase("a-ve"))

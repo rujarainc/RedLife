@@ -33,6 +33,7 @@ import com.rujara.health.redlife.adapter.RowAdapterListWithIconPlace;
 import com.rujara.health.redlife.classes.CardObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class SearchLocation extends AppCompatActivity
@@ -40,8 +41,10 @@ public class SearchLocation extends AppCompatActivity
     private static final String TAG = "PlaceAutocompleteAdptr";
     private static final CharacterStyle STYLE_BOLD = new StyleSpan(Typeface.BOLD);
     private static final CharacterStyle STYLE_NORMAL = new StyleSpan(Typeface.NORMAL);
-    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
-            new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362));
+    private static final LatLngBounds INDIA = new LatLngBounds(
+            //new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362));
+            //67.016667	6.755556	97.35	35.9558333333333
+            new LatLng(6.755556, 67.016667), new LatLng(35.955833, 97.35));
     protected GoogleApiClient mGoogleApiClient;
     ArrayList<CardObject> cardObjects = new ArrayList<CardObject>();
     private RowAdapterListWithIconPlace mAdapter;
@@ -58,7 +61,6 @@ public class SearchLocation extends AppCompatActivity
                 .enableAutoManage(this, 0, this)
                 .addApi(Places.GEO_DATA_API)
                 .build();
-
         searchText = (EditText) findViewById(R.id.addressText);
         searchResults = (ListView) findViewById(R.id.search_location_list_view);
         searchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,8 +75,14 @@ public class SearchLocation extends AppCompatActivity
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
                 // When user changed the Text
-                if (cs != null && cs.length() > 0)
+                if (cs != null && cs.length() > 0) {
                     new GetLocationAsync().execute(cs.toString());
+                } else {
+                    mAdapter = new RowAdapterListWithIconPlace(SearchLocation.this, new ArrayList<CardObject>());
+                    searchResults.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                }
+
             }
 
             @Override
@@ -158,10 +166,14 @@ public class SearchLocation extends AppCompatActivity
 
                 // Submit the query to the autocomplete API and retrieve a PendingResult that will
                 // contain the results when the query completes.
+                List<Integer> filterTypes = new ArrayList<Integer>();
+//                filterTypes.add( Place.TYPE_AIRPORT );
+                filterTypes.add(Place.TYPE_ESTABLISHMENT);
+
                 PendingResult<AutocompletePredictionBuffer> results =
                         Places.GeoDataApi
                                 .getAutocompletePredictions(mGoogleApiClient, params[0],
-                                        BOUNDS_GREATER_SYDNEY, null);
+                                        INDIA, null);
 
                 // This method should have been called off the main UI thread. Block and wait for at most 60s
                 // for a result from the API.

@@ -14,18 +14,18 @@
 
     <string name="nav_item_dashboard">Dashboard</string>
     <string name="nav_item_profile">Profile</string>
-    <string name="nav_item_medical_record">Medical Record</string>
+    <string name="nav_item_history">History</string>
 
     <!-- navigation drawer item labels  -->
     <string-array name="nav_drawer_labels">
         <item>@string/nav_item_dashboard</item>
         <item>@string/nav_item_profile</item>
-        <item>@string/nav_item_medical_record</item>
+        <item>@string/nav_item_history</item>
     </string-array>
 
     <string name="title_profile">Profile</string>
-    <string name="title_medical_record">Medical Record</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_medical_record">History</string>
+    <string name="title_dashboard">Red Life</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

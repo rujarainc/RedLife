@@ -1,6 +1,5 @@
 package com.rujara.health.redlife.activity;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -11,7 +10,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,17 +21,8 @@ import com.rujara.health.redlife.fragment.MatchRequest;
 import com.rujara.health.redlife.fragment.OtherRequest;
 import com.rujara.health.redlife.networks.INetworkListener;
 import com.rujara.health.redlife.networks.NetworkInspector;
-import com.rujara.health.redlife.store.UserDetails;
-import com.rujara.health.redlife.utils.AppUtils;
+import com.rujara.health.redlife.networks.Signout;
 import com.rujara.health.redlife.utils.SessionManager;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
-
-import java.io.InputStream;
 
 public class DonateActivity extends AppCompatActivity implements INetworkListener {
     public static TabLayout tabLayout;
@@ -102,7 +91,7 @@ public class DonateActivity extends AppCompatActivity implements INetworkListene
             System.out.println(
                     RedLifeContants.SIGNOUT + "/" + sessionManger.getUserDetails().get("serverToken")
             );
-            new SignoutTask().execute(RedLifeContants.SIGNOUT + "/" + sessionManger.getUserDetails().get("serverToken"));
+            new Signout().execute(sessionManger.getUserDetails().get("serverToken"));
             sessionManger.logoutUser();
         }
         if (id == android.R.id.home) {
@@ -182,39 +171,6 @@ public class DonateActivity extends AppCompatActivity implements INetworkListene
                     return "Others";
             }
             return null;
-        }
-    }
-
-    private class SignoutTask extends AsyncTask<String, Void, JSONObject> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONObject response = null;
-            try {
-                InputStream inputStream = null;
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(args[0]);
-                httpGet.setHeader("Accept", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpGet);
-                inputStream = httpResponse.getEntity().getContent();
-                if (inputStream != null)
-                    response = new AppUtils().convertInputStreamToJson(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject response) {
-            Log.v("[rujara]", "Response: " + response);
-            UserDetails.getInstance().resetUser();
-
         }
     }
 }

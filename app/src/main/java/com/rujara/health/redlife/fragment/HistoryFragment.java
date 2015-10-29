@@ -3,7 +3,6 @@ package com.rujara.health.redlife.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -20,29 +19,28 @@ import com.rujara.health.redlife.activity.ResponseActivity;
 import com.rujara.health.redlife.adapter.RowAdapterCardWithIcon;
 import com.rujara.health.redlife.classes.CardObject;
 import com.rujara.health.redlife.constants.RedLifeContants;
+import com.rujara.health.redlife.networks.Communicator;
+import com.rujara.health.redlife.networks.IAsyncTask;
 import com.rujara.health.redlife.utils.AppUtils;
 import com.rujara.health.redlife.utils.SessionManager;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
  * Created by deep.patel on 9/18/15.
  */
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements IAsyncTask {
+    SessionManager sessionManager = null;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private TextView noRecordsText;
     private ArrayList<CardObject> reqObject;
+    private Communicator communicator = new Communicator(this);
     public HistoryFragment() {
         // Required empty public constructor
     }
@@ -63,19 +61,19 @@ public class HistoryFragment extends Fragment {
         mAdapter = new RowAdapterCardWithIcon(new ArrayList<CardObject>());
 
         mRecyclerView.setAdapter(mAdapter);
-        final SessionManager sessionManager = new SessionManager(getActivity().getApplicationContext());
+        sessionManager = new SessionManager(getActivity().getApplicationContext());
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.history_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new EndpointCommunicationTask(false).execute(RedLifeContants.GET_MYACTION + "/" + sessionManager.getUserDetails().get("serverToken"));
+                getHistory();
             }
         });
 
 
-        new EndpointCommunicationTask(true).execute(RedLifeContants.GET_MYACTION + "/" + sessionManager.getUserDetails().get("serverToken"));
+        getHistory();
 
         return rootView;
     }
@@ -94,17 +92,9 @@ public class HistoryFragment extends Fragment {
         super.onDetach();
     }
 
-
-    private class EndpointCommunicationTask extends AsyncTask<String, Void, JSONObject> {
-        private boolean noRecords = false;
-
-        public EndpointCommunicationTask(boolean noRecords) {
-            this.noRecords = noRecords;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+    @Override
+    public void onPreExecute(int taskId) {
+        if (taskId == 1) {
             if (mSwipeRefreshLayout != null && !mSwipeRefreshLayout.isRefreshing()) {
                 mSwipeRefreshLayout.post(new Runnable() {
                     @Override
@@ -114,29 +104,11 @@ public class HistoryFragment extends Fragment {
                 });
             }
         }
+    }
 
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONObject response = null;
-            try {
-                InputStream inputStream = null;
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(args[0]);
-                httpGet.setHeader("Accept", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpGet);
-                inputStream = httpResponse.getEntity().getContent();
-                if (inputStream != null)
-                    response = new AppUtils().convertInputStreamToJson(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject response) {
-            Log.v("[rujara]", "Response: " + response);
+    @Override
+    public void onPostExecute(int taskId, JSONObject response) {
+        if (taskId == 1) {
             try {
                 if (mSwipeRefreshLayout != null) {
                     mSwipeRefreshLayout.setRefreshing(false);
@@ -172,7 +144,10 @@ public class HistoryFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
+    }
+
+    private void getHistory() {
+        communicator.communicate(1, RedLifeContants.GET_MYACTION + "/" + sessionManager.getUserDetails().get("serverToken"));
     }
 }

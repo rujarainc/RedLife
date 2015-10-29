@@ -4,7 +4,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
@@ -30,17 +29,9 @@ import com.rujara.health.redlife.classes.Donors;
 import com.rujara.health.redlife.constants.RedLifeContants;
 import com.rujara.health.redlife.networks.INetworkListener;
 import com.rujara.health.redlife.networks.NetworkInspector;
-import com.rujara.health.redlife.store.UserDetails;
-import com.rujara.health.redlife.utils.AppUtils;
+import com.rujara.health.redlife.networks.Signout;
 import com.rujara.health.redlife.utils.SessionManager;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONObject;
-
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ListDonors extends AppCompatActivity implements LocationListener, INetworkListener {
@@ -124,7 +115,7 @@ public class ListDonors extends AppCompatActivity implements LocationListener, I
             System.out.println(
                     RedLifeContants.SIGNOUT + "/" + sessionManger.getUserDetails().get("serverToken")
             );
-            new SignoutTask().execute(RedLifeContants.SIGNOUT + "/" + sessionManger.getUserDetails().get("serverToken"));
+            new Signout().execute(sessionManger.getUserDetails().get("serverToken"));
             sessionManger.logoutUser();
         }
         if (id == android.R.id.home) {
@@ -214,38 +205,5 @@ public class ListDonors extends AppCompatActivity implements LocationListener, I
         }
 
         snackbar.show();
-    }
-
-    private class SignoutTask extends AsyncTask<String, Void, JSONObject> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            JSONObject response = null;
-            try {
-                InputStream inputStream = null;
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(args[0]);
-                httpGet.setHeader("Accept", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpGet);
-                inputStream = httpResponse.getEntity().getContent();
-                if (inputStream != null)
-                    response = new AppUtils().convertInputStreamToJson(inputStream);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.d("InputStream", e.getLocalizedMessage());
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject response) {
-            Log.v("[rujara]", "Response: " + response);
-            UserDetails.getInstance().resetUser();
-
-        }
     }
 }

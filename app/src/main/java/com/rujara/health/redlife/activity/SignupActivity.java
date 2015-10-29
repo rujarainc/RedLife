@@ -1,6 +1,7 @@
 package com.rujara.health.redlife.activity;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -53,10 +55,9 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
     private Toolbar toolbar;
     private EditText inputName, inputEmail, inputPassword, inputPhoneNo;
     private Button btnSignUp;
-    private EditText dob;
+    private EditText dob, bg;
     private NetworkInspector networkInspector = null;
     private View myView = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +72,9 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
         inputPhoneNo = (EditText) findViewById(R.id.input_phone);
         dob = (EditText) findViewById(R.id.input_dob);
         btnSignUp = (Button) findViewById(R.id.btn_signup);
+        bg = (EditText) findViewById(R.id.input_bg);
+
+
         dob.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -82,6 +86,20 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
             @Override
             public void onClick(View v) {
                 onSelectDate();
+            }
+        });
+
+        bg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    onSelectBG();
+            }
+        });
+        bg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSelectBG();
             }
         });
     }
@@ -118,6 +136,29 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
         dialog.show();
     }
 
+    public void onSelectBG() {
+        final Dialog d = new Dialog(SignupActivity.this);
+        final String[] bloodGroups = new String[]{"A+ve", "A-ve", "B+ve", "B-ve", "AB+ve", "AB-ve", "O+ve", "O-ve"};
+        d.setTitle("Blood Groups");
+        d.setContentView(R.layout.bloodgrouppicker);
+        Button b1 = (Button) d.findViewById(R.id.button1);
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
+        np.setMinValue(0);
+        np.setMaxValue(7);
+        np.setDisplayedValues(bloodGroups);
+        // min value 0
+        np.setFormatter(new BloodgroupFormatter());
+        np.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bg.setText(bloodGroups[np.getValue()]); //set the value to textview
+                d.dismiss();
+            }
+        });
+        d.show();
+    }
+
     public void goToLogin(View view) {
         Intent login = new Intent(this, LoginActivity.class);
         startActivity(login);
@@ -141,13 +182,14 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
         String password = inputPassword.getText().toString();
         String phoneNo = inputPhoneNo.getText().toString();
         String dobString = dob.getText().toString();
-
+        String bloodGroup = bg.getText().toString().toLowerCase();
         try {
             data.put(RedLifeContants.NAME, name);
             data.put(RedLifeContants.EMAILID, email);
             data.put(RedLifeContants.PASSWORD, password);
             data.put(RedLifeContants.PHONE_NUMBER, phoneNo);
             data.put(RedLifeContants.DOB, dobString);
+            data.put(RedLifeContants.BLOOD_GROUP, bloodGroup);
             new RegisterGcmTask().execute();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -375,6 +417,29 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class BloodgroupFormatter implements NumberPicker.Formatter {
+        public String toString(int value) {
+            switch (value) {
+                case 0:
+                    return "England";
+                case 1:
+                    return "France";
+            }
+            return "Unknown";
+        }
+
+        @Override
+        public String format(int value) {
+            switch (value) {
+                case 0:
+                    return "England";
+                case 1:
+                    return "France";
+            }
+            return "Unknown";
         }
     }
 }
