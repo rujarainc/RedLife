@@ -17,19 +17,19 @@ public class RedLifeContants {
 //    public static final String NOTIFY_LOCATION = "http://healthserver-rujara.rhcloud.com/rest/endpoint/locate";
 //    public static final String REQUEST = "http://healthserver-rujara.rhcloud.com/rest/endpoint/request";
 
-    public static final String AUTHENTICATION = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/authenticate";
-    public static final String SIGNUP = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/signup";
-    public static final String NOTIFY = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/notify";
-    public static final String SIGNOUT = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/signout";
-    public static final String GET_USER = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/getuser";
-    public static final String NOTIFY_LOCATION = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/locate";
-    public static final String REQUEST = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/request";
-    public static final String GET_MYACTION = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/getMyAction";
-    public static final String RESPOND = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/respond";
-    public static final String MATCHED_REQUEST = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/matchedRequests";
-    public static final String OTHER_REQUEST = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/otherRequests";
-    public static final String GET_RESPONSES = "http://ec2-52-89-24-191.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/responses";
-
+    public static final String AUTHENTICATION = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/authenticate";
+    public static final String SIGNUP = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/signup";
+    public static final String NOTIFY = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/notify";
+    public static final String SIGNOUT = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/signout";
+    public static final String GET_USER = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/getuser";
+    public static final String NOTIFY_LOCATION = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/locate";
+    public static final String REQUEST = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/request";
+    public static final String GET_MYACTION = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/getMyAction";
+    public static final String RESPOND = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/respond";
+    public static final String MATCHED_REQUEST = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/matchedRequests";
+    public static final String OTHER_REQUEST = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/otherRequests";
+    public static final String GET_RESPONSES = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/responses";
+    public static final String RATE = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/rate";
     public static final long NETWORK_INSPECTOR_THREAD_SLEEP_TIME = 2;
 
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
@@ -43,7 +43,10 @@ public class RedLifeContants {
     public static final String BLOOD_GROUP = "bloodGroup";
     public static final String SERVER_AUTH_TOKEN = "serverAuthToken";
     public static final String PASSWORD = "password";
+    public static final String DETAILS = "details";
     public static final String DOB = "dob";
+    public static final String RATING = "rating";
+    public static final String SUGGESTION = "suggestions";
     // Milliseconds per second
     public static final int MILLISECONDS_PER_SECOND = 1000;
     // The update interval

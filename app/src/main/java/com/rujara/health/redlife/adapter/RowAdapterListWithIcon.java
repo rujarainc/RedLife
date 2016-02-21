@@ -12,7 +12,6 @@ import com.rujara.health.redlife.R;
 import com.rujara.health.redlife.classes.CardObject;
 
 import java.util.ArrayList;
-
 /**
  * Created by deep.patel on 9/23/15.
  */
@@ -22,7 +21,6 @@ public class RowAdapterListWithIcon extends ArrayAdapter<CardObject> {
     private final ArrayList<CardObject> modelsArrayList;
 
     public RowAdapterListWithIcon(Context context, ArrayList<CardObject> modelsArrayList) {
-
         super(context, R.layout.list_withicon_row, modelsArrayList);
         this.context = context;
         this.modelsArrayList = modelsArrayList;

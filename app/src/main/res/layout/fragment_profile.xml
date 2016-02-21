@@ -51,6 +51,7 @@
                     android:src="@drawable/ic_social_person" />
 
                 <ImageView
+                    android:id="@+id/editNameIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -92,6 +93,7 @@
                     android:src="@drawable/ic_communication_email" />
 
                 <ImageView
+                    android:id="@+id/editEmailIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -132,6 +134,7 @@
                     android:src="@drawable/ic_communication_phone" />
 
                 <ImageView
+                    android:id="@+id/editPhoneIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -172,6 +175,7 @@
                     android:src="@drawable/ic_action_perm_contact_cal" />
 
                 <ImageView
+                    android:id="@+id/editDOBIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -212,6 +216,7 @@
                     android:src="@drawable/ic_action_invert_colors" />
 
                 <ImageView
+                    android:id="@+id/editBloodGroupIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

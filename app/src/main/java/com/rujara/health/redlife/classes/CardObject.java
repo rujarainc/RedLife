@@ -14,6 +14,7 @@ public class CardObject {
     private String mText2;
     private String mText3;
     private Drawable cardIcon;
+    private Drawable status;
     private Map<String, String> data = new HashMap<String, String>();
 
     public CardObject(String id, String text1, String text2, Drawable cardIcon) {
@@ -37,6 +38,14 @@ public class CardObject {
 
     public void setCardIcon(Drawable cardIcon) {
         this.cardIcon = cardIcon;
+    }
+
+    public Drawable getStatusIcon() {
+        return status;
+    }
+
+    public void setStatusIcon(Drawable status) {
+        this.status = status;
     }
 
     public String getId() {

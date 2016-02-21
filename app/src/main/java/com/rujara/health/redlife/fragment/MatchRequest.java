@@ -68,7 +68,7 @@ public class MatchRequest extends Fragment implements IAsyncTask {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(rootView.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new RowAdapterCardWithIcon(new ArrayList<CardObject>());
+        mAdapter = new RowAdapterCardWithIcon(new ArrayList<CardObject>(), false);
         mRecyclerView.setAdapter(mAdapter);
 
         getMatchedRequest();
@@ -123,13 +123,14 @@ public class MatchRequest extends Fragment implements IAsyncTask {
                         cardObject.addToData(RedLifeContants.PHONE_NUMBER, temp.getString("phoneNo"));
                         cardObject.addToData("lon", String.valueOf(temp.getDouble("longitude")));
                         cardObject.addToData("lat", String.valueOf(temp.getDouble("latitude")));
+                        if(temp.has(RedLifeContants.DETAILS) && temp.getString(RedLifeContants.DETAILS)!=null && !temp.getString(RedLifeContants.DETAILS).equalsIgnoreCase("null") && !temp.getString(RedLifeContants.DETAILS).equalsIgnoreCase(""))
+                            cardObject.addToData(RedLifeContants.DETAILS, temp.getString(RedLifeContants.DETAILS));
                         reqObject.add(cardObject);
                     }
-                    mAdapter = new RowAdapterCardWithIcon(reqObject);
+                    mAdapter = new RowAdapterCardWithIcon(reqObject, false);
                     ((RowAdapterCardWithIcon) mAdapter).setOnItemClickListener(new RowAdapterCardWithIcon.MyClickListener() {
                         @Override
                         public void onItemClick(int position, View v) {
-
                             CardObject cardObject = reqObject.get(position);
                             Intent requestDetail = new Intent(getActivity(), RequestDetails.class);
                             requestDetail.putExtra("lat", Double.valueOf(cardObject.getFromData("lat")));
@@ -137,8 +138,8 @@ public class MatchRequest extends Fragment implements IAsyncTask {
                             requestDetail.putExtra(RedLifeContants.NAME, cardObject.getFromData(RedLifeContants.NAME));
                             requestDetail.putExtra(RedLifeContants.EMAILID, cardObject.getFromData(RedLifeContants.EMAILID));
                             requestDetail.putExtra(RedLifeContants.PHONE_NUMBER, cardObject.getFromData(RedLifeContants.PHONE_NUMBER));
+                            requestDetail.putExtra(RedLifeContants.DETAILS, cardObject.getFromData(RedLifeContants.DETAILS));
                             requestDetail.putExtra("requestId", cardObject.getId());
-
                             startActivity(requestDetail);
                         }
                     });
@@ -147,7 +148,7 @@ public class MatchRequest extends Fragment implements IAsyncTask {
 
                 } else if (response.has("status") && response.getInt("status") == 5) {
                     reqObject = new ArrayList<CardObject>();
-                    mAdapter = new RowAdapterCardWithIcon(reqObject);
+                    mAdapter = new RowAdapterCardWithIcon(reqObject, false);
                     mRecyclerView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
                     noRecordsText.setVisibility(View.VISIBLE);

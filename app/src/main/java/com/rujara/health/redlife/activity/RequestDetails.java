@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,6 +31,8 @@ import com.rujara.health.redlife.networks.NetworkInspector;
 import com.rujara.health.redlife.networks.Signout;
 import com.rujara.health.redlife.utils.SessionManager;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class RequestDetails extends AppCompatActivity implements LocationListener, INetworkListener {
@@ -42,9 +45,10 @@ public class RequestDetails extends AppCompatActivity implements LocationListene
     private SessionManager sessionManger = null;
     private NetworkInspector networkInspector = null;
     private View myView = null;
-    private TextView inputName, inputPhone, inputEmail;
+    private TextView inputName, inputPhone, inputEmail, detailsText;
     private String requestId, fromEmail;
     private LatLng requestedLocation;
+    private RelativeLayout detailsLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +58,24 @@ public class RequestDetails extends AppCompatActivity implements LocationListene
         inputName = (TextView) findViewById(R.id.input_name);
         inputEmail = (TextView) findViewById(R.id.input_email);
         inputPhone = (TextView) findViewById(R.id.input_phone);
-
-
+        detailsText = (TextView) findViewById(R.id.details);
+        detailsLayout = (RelativeLayout) findViewById(R.id.detaislLayout);
         boolean fromNotification = getIntent().getBooleanExtra("fromNotification", false);
         String requestName = getIntent().getStringExtra(RedLifeContants.NAME);
         String requestEmail = getIntent().getStringExtra(RedLifeContants.EMAILID);
         String requestPhone = getIntent().getStringExtra(RedLifeContants.PHONE_NUMBER);
+        String details = getIntent().getStringExtra(RedLifeContants.DETAILS);
         requestId = getIntent().getStringExtra("requestId");
         inputName.setText(requestName);
         inputEmail.setText(requestEmail);
         inputPhone.setText(requestPhone);
         fromEmail = requestEmail;
+
+        if(details!=null){
+            detailsText.setText(details);
+            detailsLayout.setVisibility(View.VISIBLE);
+        }
+
         myView = findViewById(R.id.response_details_layout_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         sessionManger = new SessionManager(getApplicationContext());

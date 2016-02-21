@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.rujara.health.redlife" >
+    package="com.rujara.health.redlife">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <permission
         android:name="com.rujara.health.redlife.permission.C2D_MESSAGE"
@@ -35,11 +38,10 @@
         android:allowBackup="true"
         android:icon="@drawable/splashicon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activity.Dashboard"
-            android:label="@string/app_name" >
-        </activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".activity.Splash"
             android:label="@string/app_name">
@@ -51,8 +53,7 @@
         </activity>
         <activity
             android:name=".activity.SignupActivity"
-            android:label="@string/title_activity_signup" >
-        </activity>
+            android:label="@string/title_activity_signup" />
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -145,7 +146,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rujara.health.redlife.activity.Dashboard" />
         </activity>
-        <activity android:name=".activity.SearchLocation"></activity>
+        <activity android:name=".activity.SearchLocation" />
         <activity android:name=".activity.EnterRequestDetails">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -157,9 +158,23 @@
                 android:value="com.rujara.health.redlife.activity.ResponseActivity" />
         </activity>
 
+        <receiver android:name=".service.SMSReciever">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="19d25f00505bd9185671a4197c9d781efa1d75d6" />
+
+        <activity android:name=".activity.XPRating" />
+        <activity android:name=".activity.SMSVerification"></activity>
+        <activity android:name=".activity.EditField">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rujara.health.redlife.activity.Dashboard" />
+        </activity>
     </application>
 
 </manifest>

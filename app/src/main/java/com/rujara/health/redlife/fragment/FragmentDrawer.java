@@ -33,19 +33,21 @@ public class FragmentDrawer extends Fragment{
     private NavigationDrawerAdapter adapter;
     private View containerView;
     private FragmentDrawerListener drawerListener;
-
+    private int itemIcons[] = {R.drawable.ic_action_action_home,
+                                R.drawable.ic_action_action_account_box,
+                                R.drawable.ic_action_action_assignment,
+                                R.drawable.ic_action_social_share};
     public FragmentDrawer() {
-
     }
 
-    public static List<NavDrawerItem> getData() {
+    public  List<NavDrawerItem> getData() {
         List<NavDrawerItem> data = new ArrayList<>();
-
 
         // preparing navigation drawer items
         for (int i = 0; i < titles.length; i++) {
             NavDrawerItem navItem = new NavDrawerItem();
             navItem.setTitle(titles[i]);
+            navItem.setIcon(getResources().getDrawable(itemIcons[i]));
             data.add(navItem);
         }
         return data;
@@ -79,10 +81,8 @@ public class FragmentDrawer extends Fragment{
                 drawerListener.onDrawerItemSelected(view, position);
                 mDrawerLayout.closeDrawer(containerView);
             }
-
             @Override
             public void onLongClick(View view, int position) {
-
             }
         }));
 

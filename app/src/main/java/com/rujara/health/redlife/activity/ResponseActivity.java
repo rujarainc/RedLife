@@ -11,7 +11,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -94,10 +96,18 @@ public class ResponseActivity extends AppCompatActivity implements INetworkListe
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mListView = (ListView) findViewById(R.id.donor_response_list_view);
+        unregisterForContextMenu(mListView);
         mAdapter = new RowAdapterListWithIcon(this, new ArrayList<CardObject>());
         mListView.setAdapter(mAdapter);
+        registerForContextMenu(mListView);
     }
-
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_request_list, menu);
+    }
     public void showList(View v) {
         swipeRefreshLayout.setRefreshing(false);
         waiting.setVisibility(View.GONE);
@@ -241,6 +251,7 @@ public class ResponseActivity extends AppCompatActivity implements INetworkListe
 
     @Override
     public void onPostExecute(int taskId, JSONObject response) {
+
         if (taskId == 1) {
             progressDialog.dismiss();
         } else if (taskId == 2) {
@@ -262,6 +273,7 @@ public class ResponseActivity extends AppCompatActivity implements INetworkListe
                     }
                     mAdapter = new RowAdapterListWithIcon(ResponseActivity.this, resObject);
                     mListView.setAdapter(mAdapter);
+                    unregisterForContextMenu(mListView);
                     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

@@ -20,6 +20,7 @@ import com.rujara.health.redlife.constants.RedLifeContants;
 import com.rujara.health.redlife.fragment.DashBoard_New;
 import com.rujara.health.redlife.fragment.FragmentDrawer;
 import com.rujara.health.redlife.fragment.HistoryFragment;
+import com.rujara.health.redlife.fragment.HistoryHolder;
 import com.rujara.health.redlife.fragment.ProfileFragment;
 import com.rujara.health.redlife.networks.INetworkListener;
 import com.rujara.health.redlife.networks.NetworkInspector;
@@ -40,6 +41,7 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
     private NetworkInspector networkInspector = null;
     private View myView = null;
     private SessionManager sessionManger = null;
+    private int currentVisibleFragment = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,16 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
     }
 
     @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+        // do your stuff  here
+        if(currentVisibleFragment!=0)
+            displayView(0);
+        else
+            super.onBackPressed();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
@@ -87,6 +99,7 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onDrawerItemSelected(View view, int position) {
         displayView(position);
@@ -105,13 +118,30 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
                 title = getString(R.string.title_profile);
                 break;
             case 2:
-                fragment = new HistoryFragment();
+                fragment = new HistoryHolder();
                 title = getString(R.string.title_medical_record);
+                break;
+            case 3:
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+//                sendIntent.putExtra(Intent.EXTRA_TEXT, "Let's take a little step towards humanity. Step forward.\n"
+//                        + "Presenting RedLife App for Blood seekers/Donors"
+//                        + "https://play.google.com/store/apps/details?id=com.bt.bms"
+//                        + "Download Now!!");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Text");
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+                sendIntent.putExtra(Intent.EXTRA_STREAM, "https://play.google.com/store/apps/details?id=com.bt.bms");
+//                sendIntent.putExtra(Intent.EXTRA_TEXT,""
+//                        + "https://play.google.com/store/apps/details?id=com.bt.bms"
+//                        + "Download Now!!");
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
                 break;
             default:
                 break;
         }
 
+        currentVisibleFragment = position;
         if (fragment != null) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -295,7 +295,6 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
             progressDialog = ProgressDialog.show(SignupActivity.this, null, "Registering ...", true);
         }
 
-
         @Override
         protected String doInBackground(Void... voids) {
             try {
@@ -322,7 +321,6 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
 
     private class EndpointCommunicationTask extends AsyncTask<String, Void, JSONObject> {
         private String eventRegId = null;
-
 
         @Override
         protected void onPreExecute() {

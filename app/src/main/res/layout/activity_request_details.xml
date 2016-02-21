@@ -21,133 +21,164 @@
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8" />
+        android:layout_weight="0.45" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:id="@+id/input_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/textview_border"
-            android:gravity="center_vertical"
-            android:hint="Enter sample text..."
-            android:paddingBottom="8dp"
-            android:paddingLeft="45dp"
-            android:paddingTop="6dp"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:contentDescription="Edit image icon"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_social_person" />
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:id="@+id/input_phone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/textview_border"
-            android:gravity="center_vertical"
-            android:hint="Enter sample text..."
-            android:paddingBottom="8dp"
-            android:paddingLeft="45dp"
-            android:paddingTop="6dp"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:contentDescription="Edit image icon"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_communication_phone" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:id="@+id/input_email"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/textview_border"
-            android:gravity="center_vertical"
-            android:hint="Enter sample text..."
-            android:paddingBottom="8dp"
-            android:paddingLeft="45dp"
-            android:paddingTop="6dp"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:contentDescription="Edit image icon"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_communication_email" />
-    </RelativeLayout>
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        android:weightSum="1">
+        android:layout_height="0dp"
+        android:layout_weight="0.55">
 
-        <Button
-            android:layout_width="0.0dip"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2.0dip"
-            android:layout_weight="0.5"
-            android:background="@color/windowBackground"
-            android:drawableLeft="@drawable/ic_device_access_time"
-            android:gravity="center_vertical"
-            android:onClick="onLater"
-            android:text="Later"
-            android:textColor="@color/colorAccent" />
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
-        <Button
-            android:layout_width="0.0dip"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="2.0dip"
-            android:layout_weight="0.5"
-            android:background="@color/windowBackground"
-            android:drawableLeft="@drawable/ic_action_done"
-            android:gravity="center_vertical"
-            android:onClick="onAccept"
-            android:text="Accept"
-            android:textColor="@color/colorAccent" />
+                <Button
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2.0dip"
+                    android:layout_marginRight="2.0dip"
+                    android:layout_weight="0.5"
+                    android:background="@color/windowBackground"
+                    android:drawableLeft="@drawable/ic_device_access_time"
+                    android:gravity="center_vertical"
+                    android:onClick="onLater"
+                    android:text="Later"
+                    android:textColor="@color/colorAccent" />
+
+                <Button
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2.0dip"
+                    android:layout_marginLeft="2.0dip"
+                    android:layout_weight="0.5"
+                    android:background="@color/windowBackground"
+                    android:drawableLeft="@drawable/ic_action_done"
+                    android:gravity="center_vertical"
+                    android:onClick="onAccept"
+                    android:text="Accept"
+                    android:textColor="@color/colorAccent" />
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/input_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center_vertical"
+                    android:hint="Enter sample text..."
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="45dp"
+                    android:paddingTop="6dp"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_social_person" />
+            </RelativeLayout>
 
 
-    </LinearLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp">
 
+                <TextView
+                    android:id="@+id/input_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center_vertical"
+                    android:hint="Enter sample text..."
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="45dp"
+                    android:paddingTop="6dp"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_communication_phone" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center_vertical"
+                    android:hint="Enter sample text..."
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="45dp"
+                    android:paddingTop="6dp"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_communication_email" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/detaislLayout"
+                android:visibility="gone">
+                <TextView
+                    android:id="@+id/details"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center_vertical"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="6dp"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -13,7 +13,8 @@
         android:layout_margin="5dp"
         android:elevation="4dp"
         card_view:cardCornerRadius="2dp"
-        card_view:contentPadding="10dp">
+        card_view:contentPadding="10dp"
+        card_view:contentPaddingRight="0dp">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -25,13 +26,24 @@
                 android:layout_height="60dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/a_plus" />
+            <ImageView
+                android:id="@+id/cardStatusIcon"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/ic_action_assignment_turned_in"/>
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/cardIcon"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:layout_marginLeft="15dp"
+                android:layout_marginEnd="23dp"
+                android:layout_marginRight="23dp"
                 android:layout_toEndOf="@+id/cardIcon"
                 android:layout_toRightOf="@+id/cardIcon"
                 android:text="Deep R. Patel"
@@ -43,6 +55,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/textView"
                 android:layout_alignStart="@+id/textView"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:layout_centerVertical="true"
                 android:text="patel.deep02@gmail.com" />
 
@@ -51,6 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/textView2"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:layout_alignStart="@+id/textView2"
                 android:layout_below="@+id/textView2"
                 android:layout_marginTop="5dp"
