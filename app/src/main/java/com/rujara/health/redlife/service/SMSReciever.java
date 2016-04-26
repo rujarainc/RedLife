@@ -33,7 +33,7 @@ public class SMSReciever extends BroadcastReceiver {
                     int duration = Toast.LENGTH_LONG;
 //                    Toast toast = Toast.makeText(context,
 //                            "senderNum: "+ senderNum + ", message: " + message, duration);
-                    if(senderNum!=null && (senderNum.contains("+912222") || senderNum.contains("redlif"))){
+                    if(senderNum!=null && senderNum.contains("REDLIF")){
                         Intent sendOTP = new Intent("OTP_RECEIVED");
                         sendOTP.putExtra("otp", fetchOTP(message));
                         context.sendBroadcast(sendOTP);

@@ -76,6 +76,7 @@ public class ResponseActivity extends AppCompatActivity implements INetworkListe
             details = getIntent().getStringExtra("details");
             bloodGroup = getIntent().getStringExtra("bloodGroup");
             locationString = getIntent().getStringExtra("locationString");
+            noRecordsText.setVisibility(View.VISIBLE);
             makeRequest();
         } else {
             requestId = getIntent().getStringExtra("requestId");
@@ -140,6 +141,7 @@ public class ResponseActivity extends AppCompatActivity implements INetworkListe
         if (id == android.R.id.home) {
             RedLifeContants.OPEN_HISTORY = true;
             NavUtils.navigateUpFromSameTask(this);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;
         }
         return super.onOptionsItemSelected(item);

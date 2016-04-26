@@ -24,6 +24,8 @@ import android.widget.TextView;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.rujara.health.redlife.R;
 import com.rujara.health.redlife.constants.RedLifeContants;
+import com.rujara.health.redlife.networks.Communicator;
+import com.rujara.health.redlife.networks.IAsyncTask;
 import com.rujara.health.redlife.networks.INetworkListener;
 import com.rujara.health.redlife.networks.NetworkInspector;
 import com.rujara.health.redlife.store.UserDetails;
@@ -45,13 +47,14 @@ import java.util.Calendar;
 /**
  * Created by deep.patel on 9/18/15.
  */
-public class SignupActivity extends AppCompatActivity implements INetworkListener {
+public class SignupActivity extends AppCompatActivity implements INetworkListener, IAsyncTask {
 
     Snackbar snackbar = null;
     ProgressDialog progressDialog = null;
     JSONObject data = new JSONObject();
     SessionManager sessionManager = null;
     GoogleCloudMessaging gcm = null;
+    Communicator communicator = new Communicator(this);
     private Toolbar toolbar;
     private EditText inputName, inputEmail, inputPassword, inputPhoneNo;
     private Button btnSignUp;
@@ -166,9 +169,6 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
 
     public void onSignup(View view) {
 
-        if (!validate()) {
-            return;
-        }
         View view2 = this.getCurrentFocus();
         if (view2 != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -272,6 +272,58 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
         networkInspector.stop();
     }
 
+    @Override
+    public void onPreExecute(int taskId) {
+
+    }
+
+    @Override
+    public void onPostExecute(int taskId, JSONObject response) {
+        String smsCode = null;
+        try {
+            if (response.has("status") && response.getInt("status") == 0) {
+                smsCode = response.getString("message");
+                UserDetails userDetails = UserDetails.getInstance();
+                JSONObject responseData = response.getJSONObject("data");
+                if (responseData.has(RedLifeContants.NAME))
+                    userDetails.setName(responseData.getString(RedLifeContants.NAME));
+                if (responseData.has(RedLifeContants.EMAILID))
+                    userDetails.setEmailId(responseData.getString(RedLifeContants.EMAILID));
+                if (responseData.has(RedLifeContants.PHONE_NUMBER))
+                    userDetails.setPhoneNumber(responseData.getString(RedLifeContants.PHONE_NUMBER));
+                if (responseData.has(RedLifeContants.DOB))
+                    userDetails.setDob(responseData.getString(RedLifeContants.DOB));
+                if (responseData.has(RedLifeContants.EVENT_REGISTRATION_ID))
+                    userDetails.setEventRegistrationId(responseData.getString(RedLifeContants.EVENT_REGISTRATION_ID));
+                if (responseData.has(RedLifeContants.BLOOD_GROUP))
+                    userDetails.setBloodGroup(responseData.getString(RedLifeContants.BLOOD_GROUP));
+                if (responseData.has(RedLifeContants.SERVER_AUTH_TOKEN))
+                    userDetails.setServerAuthToken(responseData.getString(RedLifeContants.SERVER_AUTH_TOKEN));
+                progressDialog.dismiss();
+                sessionManager.createLoginSession(userDetails.getEmailId(), userDetails.getServerAuthToken());
+                Intent smsVerification = new Intent(SignupActivity.this, SMSVerification.class);
+                smsVerification.putExtra("smsCode", smsCode);
+                smsVerification.putExtra(RedLifeContants.PHONE_NUMBER, userDetails.getPhoneNumber());
+                startActivity(smsVerification);
+                finish();
+            } else if (response.has("status") && response.getInt("status") == 1) {
+                Snackbar snackbar = Snackbar.make(myView, "Signup failed", Snackbar.LENGTH_LONG);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(getResources().getColor(R.color.windowBackground));
+            } else {
+                Snackbar snackbar = Snackbar.make(myView, "Something went wrong", Snackbar.LENGTH_LONG);
+                View snackbarView = snackbar.getView();
+                snackbarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                textView.setTextColor(getResources().getColor(R.color.windowBackground));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     class mDateSetListener implements DatePickerDialog.OnDateSetListener {
 
         @Override
@@ -315,11 +367,12 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            new EndpointCommunicationTask().execute(RedLifeContants.SIGNUP);
+            communicator.communicate(1, RedLifeContants.SIGNUP, data);
+//            new EndpointCommunicationTask().execute(RedLifeContants.SIGNUP);
         }
     }
 
-    private class EndpointCommunicationTask extends AsyncTask<String, Void, JSONObject> {
+    /*private class EndpointCommunicationTask extends AsyncTask<String, Void, JSONObject> {
         private String eventRegId = null;
 
         @Override
@@ -416,7 +469,7 @@ public class SignupActivity extends AppCompatActivity implements INetworkListene
                 e.printStackTrace();
             }
         }
-    }
+    }*/
 
     private class BloodgroupFormatter implements NumberPicker.Formatter {
         public String toString(int value) {

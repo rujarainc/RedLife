@@ -78,4 +78,6 @@
     <string name="msg_sit_back">Sit back &amp; Relax! while we verify your mobile number</string>
     <string name="msg_manual_otp">(Enter the OTP below in case if we fail to detect the SMS automatically)</string>
     <string name="lbl_enter_otp">Enter OTP</string>
+    <string name="title_activity_on_boarding">OnBoarding</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

@@ -45,7 +45,7 @@ public class Splash extends AppCompatActivity implements IAsyncTask {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    landingActivity = new Intent(Splash.this, LoginActivity.class);
+                    landingActivity = new Intent(Splash.this, OnboardingActivity.class);
                     startActivity(landingActivity);
                     finish();
                 }
@@ -95,10 +95,12 @@ public class Splash extends AppCompatActivity implements IAsyncTask {
     @Override
     public void onPostExecute(int taskId, JSONObject response) {
         if (taskId == 1) {
+            String smsVerificationCode = null;
             try {
                 if (response.has("status")) {
                     if (response.getInt("status") == 0) {
                         JSONObject data = response.getJSONObject("data");
+                        smsVerificationCode = data.getString(RedLifeContants.SMS_VERIFICATION_CODE);
                         if (data.has(RedLifeContants.NAME))
                             userDetails.setName(data.getString(RedLifeContants.NAME));
                         if (data.has(RedLifeContants.EMAILID))
@@ -113,18 +115,27 @@ public class Splash extends AppCompatActivity implements IAsyncTask {
                             userDetails.setServerAuthToken(data.getString(RedLifeContants.SERVER_AUTH_TOKEN));
                         Crashlytics.getInstance().core.setUserName(userDetails.getName());
                         Crashlytics.getInstance().core.setUserEmail(userDetails.getEmailId());
-                        landingActivity = new Intent(Splash.this, Dashboard.class);
-                        startActivity(landingActivity);
+
+                        if(smsVerificationCode!=null && !smsVerificationCode.equalsIgnoreCase("null")){
+                            landingActivity = new Intent(Splash.this, SMSVerification.class);
+                            landingActivity.putExtra(RedLifeContants.PHONE_NUMBER, userDetails.getPhoneNumber());
+                            landingActivity.putExtra("smsCode", smsVerificationCode);
+                            startActivity(landingActivity);
+                        }else{
+                            landingActivity = new Intent(Splash.this, Dashboard.class);
+                            startActivity(landingActivity);
+                        }
+
                         finish();
                     } else {
-                        landingActivity = new Intent(Splash.this, LoginActivity.class);
+                        landingActivity = new Intent(Splash.this, OnboardingActivity.class);
                         startActivity(landingActivity);
                         finish();
                     }
                 }
             } catch (Exception e) {
                 Log.e("[rujara]", "Redirecting to Login page. Reason[Exception]", e);
-                landingActivity = new Intent(Splash.this, LoginActivity.class);
+                landingActivity = new Intent(Splash.this, OnboardingActivity.class);
                 startActivity(landingActivity);
                 finish();
             }

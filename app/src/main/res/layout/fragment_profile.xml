@@ -29,7 +29,7 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
-                    android:id="@+id/input_name"
+                    android:id="@+id/tvname"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/textview_border"
@@ -71,7 +71,7 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
-                    android:id="@+id/input_email"
+                    android:id="@+id/tvemail"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/textview_border"
@@ -112,7 +112,7 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
-                    android:id="@+id/input_phone"
+                    android:id="@+id/tvphone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/textview_border"
@@ -153,7 +153,7 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
-                    android:id="@+id/input_dob"
+                    android:id="@+id/tvdob"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/textview_border"
@@ -194,7 +194,7 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
-                    android:id="@+id/input_bloodgroup"
+                    android:id="@+id/tvbloodgroup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/textview_border"

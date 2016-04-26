@@ -1,11 +1,16 @@
 package com.rujara.health.redlife.activity;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -64,7 +69,13 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
         networkInspector = new NetworkInspector(this, this);
         Intent i = new Intent(Dashboard.this, MyService.class);
         startService(i);
-        displayView(0);
+//        displayView(0);
+        if(RedLifeContants.OPEN_HISTORY){
+            displayView(2);
+            RedLifeContants.OPEN_HISTORY = false;
+        } else {
+            displayView(0);
+        }
     }
 
     @Override
@@ -91,11 +102,27 @@ public class Dashboard extends AppCompatActivity implements FragmentDrawer.Fragm
             return true;
         }
         if (id == R.id.action_logout) {
-            System.out.println(
-                    RedLifeContants.SIGNOUT + "/" + sessionManger.getUserDetails().get("serverToken")
-            );
-            new Signout().execute(sessionManger.getUserDetails().get("serverToken"));
-            sessionManger.logoutUser();
+
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            new Signout().execute(sessionManger.getUserDetails().get("serverToken"));
+                            sessionManger.logoutUser();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Seriously.. You want to Logout?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
         }
         return super.onOptionsItemSelected(item);
     }

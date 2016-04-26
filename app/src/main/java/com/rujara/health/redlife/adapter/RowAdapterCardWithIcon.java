@@ -23,8 +23,8 @@ import java.util.ArrayList;
  */
 public class RowAdapterCardWithIcon extends RecyclerView
         .Adapter<RowAdapterCardWithIcon.RequestObjectHolder> {
-    private static MyClickListener myClickListener;
-    private static MyMenuItenClickListener myMenuItenClickListener;
+    private MyClickListener myClickListener;
+    private MyMenuItenClickListener myMenuItenClickListener;
     private ArrayList<CardObject> mDataset;
     private boolean showContextMenu;
     public RowAdapterCardWithIcon(ArrayList<CardObject> myDataset, boolean showContextMenu) {
@@ -102,7 +102,8 @@ public class RowAdapterCardWithIcon extends RecyclerView
 
         @Override
         public void onClick(View v) {
-            myClickListener.onItemClick(getAdapterPosition(), v);
+            if(myClickListener!=null)
+                myClickListener.onItemClick(getAdapterPosition(), v);
         }
 
         @Override

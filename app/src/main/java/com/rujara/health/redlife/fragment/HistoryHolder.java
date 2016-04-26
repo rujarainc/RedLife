@@ -89,7 +89,6 @@ public class HistoryHolder extends Fragment {
             return int_items;
 
         }
-
         /**
          * This method returns the title of the tab according to the position.
          */

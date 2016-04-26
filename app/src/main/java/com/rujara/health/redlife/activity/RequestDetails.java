@@ -1,17 +1,22 @@
 package com.rujara.health.redlife.activity;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,23 +34,27 @@ import com.rujara.health.redlife.constants.RedLifeContants;
 import com.rujara.health.redlife.networks.INetworkListener;
 import com.rujara.health.redlife.networks.NetworkInspector;
 import com.rujara.health.redlife.networks.Signout;
+import com.rujara.health.redlife.utils.AppUtils;
 import com.rujara.health.redlife.utils.SessionManager;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class RequestDetails extends AppCompatActivity implements LocationListener, INetworkListener {
     GoogleMap googleMap;
     double lat;
     double lon;
-    LatLng currentlatLng = null;
-    LatLng destinationlatlng = null;
+    private LatLng currentlatLng = null;
+    private LatLng destinationlatlng = null;
     private Snackbar snackbar = null;
     private SessionManager sessionManger = null;
     private NetworkInspector networkInspector = null;
     private View myView = null;
-    private TextView inputName, inputPhone, inputEmail, detailsText;
+    private TextView inputName, detailsText;
+//            inputEmail, inputPhone;
     private String requestId, fromEmail;
     private LatLng requestedLocation;
     private RelativeLayout detailsLayout;
@@ -56,8 +65,8 @@ public class RequestDetails extends AppCompatActivity implements LocationListene
         setContentView(R.layout.activity_request_details);
 
         inputName = (TextView) findViewById(R.id.input_name);
-        inputEmail = (TextView) findViewById(R.id.input_email);
-        inputPhone = (TextView) findViewById(R.id.input_phone);
+//        inputEmail = (TextView) findViewById(R.id.input_email);
+//        inputPhone = (TextView) findViewById(R.id.input_phone);
         detailsText = (TextView) findViewById(R.id.details);
         detailsLayout = (RelativeLayout) findViewById(R.id.detaislLayout);
         boolean fromNotification = getIntent().getBooleanExtra("fromNotification", false);
@@ -65,10 +74,22 @@ public class RequestDetails extends AppCompatActivity implements LocationListene
         String requestEmail = getIntent().getStringExtra(RedLifeContants.EMAILID);
         String requestPhone = getIntent().getStringExtra(RedLifeContants.PHONE_NUMBER);
         String details = getIntent().getStringExtra(RedLifeContants.DETAILS);
+        String respondTime = getIntent().getStringExtra(RedLifeContants.RESPOND_TIME);
+        if(respondTime!=null && !respondTime.equalsIgnoreCase("") && !respondTime.equalsIgnoreCase("0")){
+            TextView tvRespondTime = (TextView) findViewById(R.id.tvRespondTime);
+            tvRespondTime.setText("Responded on " + new AppUtils().getDate(Long.parseLong(respondTime), "dd/MM/yyyy"));
+
+            LinearLayout responseOptionsLayout = (LinearLayout) findViewById(R.id.responseOptionLayout);
+            responseOptionsLayout.setVisibility(View.GONE);
+
+            RelativeLayout respondTimeLayout = (RelativeLayout) findViewById(R.id.respondedTimeLayout);
+            respondTimeLayout.setVisibility(View.VISIBLE);
+
+        }
         requestId = getIntent().getStringExtra("requestId");
         inputName.setText(requestName);
-        inputEmail.setText(requestEmail);
-        inputPhone.setText(requestPhone);
+//        inputEmail.setText(requestEmail);
+//        inputPhone.setText(requestPhone);
         fromEmail = requestEmail;
 
         if(details!=null){
@@ -140,6 +161,7 @@ public class RequestDetails extends AppCompatActivity implements LocationListene
         }
         if (id == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -248,6 +270,7 @@ public class RequestDetails extends AppCompatActivity implements LocationListene
                 mLocationManager.requestLocationUpdates(provider, 2000, 0, this);
             }
         }
+
         if (bestLocation == null) {
             return null;
         }
@@ -259,9 +282,11 @@ public class RequestDetails extends AppCompatActivity implements LocationListene
         greetings.putExtra("requestId", requestId);
         greetings.putExtra("fromEmail", fromEmail);
         startActivity(greetings);
+        finish();
     }
 
     public void onLater(View view) {
         NavUtils.navigateUpFromSameTask(this);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 }

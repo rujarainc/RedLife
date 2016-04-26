@@ -62,7 +62,7 @@
                     android:background="@drawable/textview_border"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:hint="Enter sample text..."
+                    android:hint="Enter location address..."
                     android:paddingBottom="6dp"
                     android:paddingLeft="35dp"
                     android:paddingTop="6dp"

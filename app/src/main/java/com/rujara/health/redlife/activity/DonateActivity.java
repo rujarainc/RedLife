@@ -96,6 +96,7 @@ public class DonateActivity extends AppCompatActivity implements INetworkListene
         }
         if (id == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;
         }
         return super.onOptionsItemSelected(item);

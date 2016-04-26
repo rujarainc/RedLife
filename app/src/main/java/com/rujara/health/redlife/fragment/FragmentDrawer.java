@@ -33,10 +33,10 @@ public class FragmentDrawer extends Fragment{
     private NavigationDrawerAdapter adapter;
     private View containerView;
     private FragmentDrawerListener drawerListener;
-    private int itemIcons[] = {R.drawable.ic_action_action_home,
-                                R.drawable.ic_action_action_account_box,
-                                R.drawable.ic_action_action_assignment,
-                                R.drawable.ic_action_social_share};
+    private int itemIcons[] = {R.drawable.ic_action_home,
+                                R.drawable.ic_action_account_box,
+                                R.drawable.ic_action_assignment,
+                                R.drawable.ic_social_share};
     public FragmentDrawer() {
     }
 

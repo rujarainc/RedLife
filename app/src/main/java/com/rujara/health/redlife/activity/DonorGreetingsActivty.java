@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class DonorGreetingsActivty extends AppCompatActivity implements IAsyncTask {
+
     private JSONObject data = new JSONObject();
     private String locationProvider = null;
     private Communicator communicator = new Communicator(this);
@@ -67,6 +68,7 @@ public class DonorGreetingsActivty extends AppCompatActivity implements IAsyncTa
 
         if (id == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;
         }
         return super.onOptionsItemSelected(item);

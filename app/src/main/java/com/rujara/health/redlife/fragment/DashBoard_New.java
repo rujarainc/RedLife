@@ -1,13 +1,17 @@
 package com.rujara.health.redlife.fragment;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.rujara.health.redlife.R;
+import com.rujara.health.redlife.store.UserDetails;
+import com.rujara.health.redlife.utils.AppUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,7 +67,12 @@ public class DashBoard_New extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dash_board__new, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_dash_board__new, container, false);
+        ImageView dashboardBloodGroup = (ImageView) rootView.findViewById(R.id.dashboardBloodGroup);
+        AppUtils appUtils = new AppUtils();
+        System.out.println(getResources());
+        dashboardBloodGroup.setImageDrawable(getResources().getDrawable(appUtils.getDrawableIconForBloodGroup(UserDetails.getInstance().getBloodGroup())));
+        return rootView;
     }
 
     @Override

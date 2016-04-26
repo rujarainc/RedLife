@@ -120,6 +120,7 @@ public class ListDonors extends AppCompatActivity implements LocationListener, I
         }
         if (id == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;
         }
 

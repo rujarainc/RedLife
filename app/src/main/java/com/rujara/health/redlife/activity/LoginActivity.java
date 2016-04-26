@@ -34,8 +34,8 @@ import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity implements INetworkListener, IAsyncTask {
 
-    Snackbar snackbar = null;
-    GoogleCloudMessaging gcm = null;
+    private Snackbar snackbar = null;
+    private GoogleCloudMessaging gcm = null;
     private EditText _emailText = null;
     private EditText _passwordText = null;
     private Button _loginButton = null;
@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
     private ProgressDialog progressDialog = null;
     private UserDetails userDetails = null;
     private Communicator communicator = new Communicator(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +106,6 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -174,6 +174,7 @@ public class LoginActivity extends AppCompatActivity implements INetworkListener
     protected void onPause() {
         super.onPause();
         networkInspector.stop();
+        finish();
     }
 
     private void authenticateUser(String url, JSONObject requestData) {

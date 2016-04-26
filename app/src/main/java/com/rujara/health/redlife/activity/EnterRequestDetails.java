@@ -100,6 +100,7 @@ public class EnterRequestDetails extends AppCompatActivity implements INetworkLi
         }
         if (id == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -146,6 +147,7 @@ public class EnterRequestDetails extends AppCompatActivity implements INetworkLi
 
     public void onBack(View view) {
         NavUtils.navigateUpFromSameTask(this);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     public void onBGSelect(View view) {

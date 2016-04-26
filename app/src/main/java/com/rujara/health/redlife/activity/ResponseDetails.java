@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -76,6 +77,16 @@ public class ResponseDetails extends AppCompatActivity implements LocationListen
         inputName.setText(responseName);
         inputEmail.setText(responseEmail);
         inputPhone.setText(responsePhone);
+
+        inputPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + inputPhone.getText().toString()));
+                callIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(callIntent);
+            }
+        });
         myView = findViewById(R.id.response_details_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         sessionManger = new SessionManager(getApplicationContext());
@@ -138,6 +149,7 @@ public class ResponseDetails extends AppCompatActivity implements LocationListen
             Intent intent = NavUtils.getParentActivityIntent(this);
             intent.putExtra("requestId", requestId);
             NavUtils.navigateUpTo(this, intent);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;
         }
         return super.onOptionsItemSelected(item);

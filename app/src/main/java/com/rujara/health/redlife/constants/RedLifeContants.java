@@ -17,19 +17,23 @@ public class RedLifeContants {
 //    public static final String NOTIFY_LOCATION = "http://healthserver-rujara.rhcloud.com/rest/endpoint/locate";
 //    public static final String REQUEST = "http://healthserver-rujara.rhcloud.com/rest/endpoint/request";
 
-    public static final String AUTHENTICATION = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/authenticate";
-    public static final String SIGNUP = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/signup";
-    public static final String NOTIFY = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/notify";
-    public static final String SIGNOUT = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/signout";
-    public static final String GET_USER = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/getuser";
-    public static final String NOTIFY_LOCATION = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/locate";
-    public static final String REQUEST = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/request";
-    public static final String GET_MYACTION = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/getMyAction";
-    public static final String RESPOND = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/respond";
-    public static final String MATCHED_REQUEST = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/matchedRequests";
-    public static final String OTHER_REQUEST = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/otherRequests";
-    public static final String GET_RESPONSES = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/responses";
-    public static final String RATE = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com:8080/HealthService/rest/endpoint/rate";
+    public static final String AUTHENTICATION = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/authenticate";
+    public static final String SIGNUP = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/signup";
+    public static final String NOTIFY = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/notify";
+    public static final String SIGNOUT = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/signout";
+    public static final String GET_USER = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/getuser";
+    public static final String NOTIFY_LOCATION = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/locate";
+    public static final String REQUEST = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/request";
+    public static final String GET_MYACTION = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/getMyAction";
+    public static final String RESPOND = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/respond";
+    public static final String MATCHED_REQUEST = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/matchedRequests";
+    public static final String OTHER_REQUEST = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/otherRequests";
+    public static final String GET_RESPONSES = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/responses";
+    public static final String RATE = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/close";
+    public static final String VERIFY = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/verify";
+    public static final String GET_VERIFY_CODE = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/getverifycode";
+    public static final String EDIT_PROFILE = "http://ec2-52-24-42-225.us-west-2.compute.amazonaws.com/HealthService/rest/endpoint/updateProfile";
+
     public static final long NETWORK_INSPECTOR_THREAD_SLEEP_TIME = 2;
 
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
@@ -46,7 +50,12 @@ public class RedLifeContants {
     public static final String DETAILS = "details";
     public static final String DOB = "dob";
     public static final String RATING = "rating";
-    public static final String SUGGESTION = "suggestions";
+    public static final String SUGGESTION = "suggestion";
+    public static final String REQUEST_ID = "requestId";
+    public static final String SMS_VERIFICATION_CODE = "smsVerificationCode";
+    public static final String IS_VERIFIED = "isVerified";
+    public static final String RESPONDED = "responded";
+    public static final String RESPOND_TIME = "respondTime";
     // Milliseconds per second
     public static final int MILLISECONDS_PER_SECOND = 1000;
     // The update interval
@@ -64,5 +73,9 @@ public class RedLifeContants {
 
     public static enum COM_METHOD {
         GET, POST
+    }
+
+    public class ActivityResults{
+        public static final int ON_REQUEST_CLOSED = 1;
     }
 }

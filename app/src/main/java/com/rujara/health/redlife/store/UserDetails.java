@@ -68,7 +68,7 @@ public class UserDetails {
     }
 
     public void setBloodGroup(String bloodGroup) {
-        this.bloodGroup = bloodGroup;
+        this.bloodGroup = bloodGroup.toLowerCase();
     }
 
     public String getServerAuthToken() {

@@ -1,11 +1,15 @@
 package com.rujara.health.redlife.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,11 +20,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 import com.rujara.health.redlife.R;
 import com.rujara.health.redlife.activity.Dashboard;
 import com.rujara.health.redlife.activity.ResponseActivity;
+import com.rujara.health.redlife.activity.SearchLocation;
 import com.rujara.health.redlife.activity.XPRating;
 import com.rujara.health.redlife.adapter.RowAdapterCardWithIcon;
 import com.rujara.health.redlife.classes.CardObject;
@@ -115,6 +124,7 @@ public class HistoryFragment extends Fragment implements IAsyncTask {
                         @Override
                         public void onItemClick(int position, View v) {
 
+
                             Intent response = new Intent(getActivity(), ResponseActivity.class);
                             response.putExtra("requestId", reqObject.get(position).getId());
                             startActivity(response);
@@ -126,9 +136,12 @@ public class HistoryFragment extends Fragment implements IAsyncTask {
                             int menuindex = menuItem.getItemId();
                             switch (menuindex) {
                                 case 0:
+//                                    Intent rate = new Intent(getActivity(), XPRating.class);
+//                                    rate.putExtra("requestId", reqObject.get(position).getId());
+//                                    startActivity(rate);
                                     Intent rate = new Intent(getActivity(), XPRating.class);
-                                    rate.putExtra("requestId", reqObject.get(position).getId());
-                                    startActivity(rate);
+                                    rate.putExtra(RedLifeContants.REQUEST_ID, reqObject.get(position).getId());
+                                    getActivity().startActivityForResult(rate, RedLifeContants.ActivityResults.ON_REQUEST_CLOSED);
                                     break;
                                 case 1:
                                     System.out.println(reqObject.get(position).getId() +  ": 1");
@@ -176,12 +189,10 @@ public class HistoryFragment extends Fragment implements IAsyncTask {
         mLayoutManager = new LinearLayoutManager(rootView.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new RowAdapterCardWithIcon(new ArrayList<CardObject>(), true);
-
         mRecyclerView.setAdapter(mAdapter);
         sessionManager = new SessionManager(getActivity().getApplicationContext());
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.history_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
-
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -192,4 +203,5 @@ public class HistoryFragment extends Fragment implements IAsyncTask {
         getHistory();
         return rootView;
     }
+
 }

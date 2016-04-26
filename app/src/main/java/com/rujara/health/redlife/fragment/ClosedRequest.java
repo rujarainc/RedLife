@@ -133,35 +133,6 @@ public class ClosedRequest extends Fragment implements IAsyncTask {
 
                     }
                     mAdapter = new RowAdapterCardWithIcon(reqObject, false);
-                    ((RowAdapterCardWithIcon) mAdapter).setOnItemClickListener(new RowAdapterCardWithIcon.MyClickListener() {
-                        @Override
-                        public void onItemClick(int position, View v) {
-
-                            Intent response = new Intent(getActivity(), ResponseActivity.class);
-                            response.putExtra("requestId", reqObject.get(position).getId());
-                            startActivity(response);
-                        }
-                    });
-                    ((RowAdapterCardWithIcon) mAdapter).setOnMenuItemClickListener(new RowAdapterCardWithIcon.MyMenuItenClickListener() {
-                        @Override
-                        public boolean onItemClick(MenuItem menuItem, View v, int position) {
-                            int menuindex = menuItem.getItemId();
-                            switch (menuindex) {
-                                case 0:
-                                    Intent rate = new Intent(getActivity(), XPRating.class);
-                                    rate.putExtra("requestId", reqObject.get(position).getId());
-                                    startActivity(rate);
-                                    break;
-                                case 1:
-                                    System.out.println(reqObject.get(position).getId() +  ": 1");
-                                    break;
-                                default:
-                                    System.out.println("-1");
-                                    break;
-                            }
-                            return false;
-                        }
-                    });
 
                     mRecyclerView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();

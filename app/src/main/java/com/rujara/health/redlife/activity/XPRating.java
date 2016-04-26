@@ -1,5 +1,6 @@
 package com.rujara.health.redlife.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -22,10 +23,13 @@ public class XPRating extends AppCompatActivity implements IAsyncTask {
     private Communicator communicator = new Communicator(this);
     private EditText suggestions;
     private SessionManager sessionManager;
+    private String requestId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xprating);
+        requestId = getIntent().getStringExtra(RedLifeContants.REQUEST_ID);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         suggestions = (EditText) findViewById(R.id.input_suggestions);
         sessionManager = new SessionManager(this);
@@ -41,18 +45,35 @@ public class XPRating extends AppCompatActivity implements IAsyncTask {
             data.put(RedLifeContants.RATING, ratings);
             if(suggestionsText!=null && !suggestionsText.equalsIgnoreCase(""))
                 data.put(RedLifeContants.SUGGESTION, suggestionsText);
+            if(requestId!=null && !requestId.equalsIgnoreCase(""))
+                data.put(RedLifeContants.REQUEST_ID, requestId);
         }catch(Exception e){
             e.printStackTrace();
         }
-        communicator.communicate(1, RedLifeContants.RATE + "/" + sessionManager.getUserDetails().get(SessionManager.SERVER_TOKEN), data);
-        
+        communicator.communicate(1, RedLifeContants.RATE + "/" + sessionManager.getUserDetails().get(SessionManager.SERVER_TOKEN) + "/1", data);
     }
 
     @Override
     public void onPreExecute(int taskId) {
+        System.out.println("Sending Rating");
     }
 
     @Override
     public void onPostExecute(int taskId, JSONObject jsonObject) {
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK, returnIntent);
+        finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(R.anim.slide_in_up, R.anim.stay);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.stay, R.anim.slide_out_down);
     }
 }

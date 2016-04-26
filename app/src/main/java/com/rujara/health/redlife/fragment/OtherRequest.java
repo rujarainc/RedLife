@@ -127,21 +127,23 @@ public class OtherRequest extends Fragment implements IAsyncTask {
                     reqObject = new ArrayList<CardObject>();
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject temp = data.getJSONObject(i);
-                        CardObject cardObject = new CardObject(temp.getString("id"), temp.getString(RedLifeContants.NAME), temp.getString(RedLifeContants.EMAILID), new AppUtils().getDate(temp.getLong("timestamp"), "dd/MM/yyyy HH:mm:ss"), getResources().getDrawable(new AppUtils().getDrawableIconForBloodGroup(temp.getString(RedLifeContants.BLOOD_GROUP))));
+                        CardObject cardObject = new CardObject(temp.getString("id"), temp.getString(RedLifeContants.NAME), temp.getString("locationString"), new AppUtils().getDate(temp.getLong("timestamp"), "dd/MM/yyyy HH:mm:ss"), getResources().getDrawable(new AppUtils().getDrawableIconForBloodGroup(temp.getString(RedLifeContants.BLOOD_GROUP))));
                         cardObject.addToData(RedLifeContants.NAME, temp.getString(RedLifeContants.NAME));
                         cardObject.addToData(RedLifeContants.EMAILID, temp.getString(RedLifeContants.EMAILID));
                         cardObject.addToData(RedLifeContants.PHONE_NUMBER, temp.getString("phoneNo"));
                         cardObject.addToData("lon", String.valueOf(temp.getDouble("longitude")));
                         cardObject.addToData("lat", String.valueOf(temp.getDouble("latitude")));
-                        if(temp.has(RedLifeContants.DETAILS) && temp.getString(RedLifeContants.DETAILS)!=null && temp.getString(RedLifeContants.DETAILS).equalsIgnoreCase("null") && temp.getString(RedLifeContants.DETAILS).equalsIgnoreCase(""))
+                        cardObject.addToData(RedLifeContants.RESPOND_TIME, String.valueOf(temp.getLong(RedLifeContants.RESPOND_TIME)));
+                        if(temp.has(RedLifeContants.DETAILS) && temp.getString(RedLifeContants.DETAILS)!=null && !temp.getString(RedLifeContants.DETAILS).equalsIgnoreCase("null") && !temp.getString(RedLifeContants.DETAILS).equalsIgnoreCase(""))
                             cardObject.addToData(RedLifeContants.DETAILS, temp.getString(RedLifeContants.DETAILS));
+                        if(temp.has(RedLifeContants.RESPOND_TIME) && temp.getLong(RedLifeContants.RESPOND_TIME) != 0)
+                            cardObject.setStatusIcon(getResources().getDrawable(R.drawable.ic_action_assignment_turned_in));
                         reqObject.add(cardObject);
                     }
                     mAdapter = new RowAdapterCardWithIcon(reqObject, false);
                     ((RowAdapterCardWithIcon) mAdapter).setOnItemClickListener(new RowAdapterCardWithIcon.MyClickListener() {
                         @Override
                         public void onItemClick(int position, View v) {
-
                             CardObject cardObject = reqObject.get(position);
                             Intent requestDetail = new Intent(getActivity(), RequestDetails.class);
                             requestDetail.putExtra("lat", Double.valueOf(cardObject.getFromData("lat")));
@@ -150,8 +152,8 @@ public class OtherRequest extends Fragment implements IAsyncTask {
                             requestDetail.putExtra(RedLifeContants.EMAILID, cardObject.getFromData(RedLifeContants.EMAILID));
                             requestDetail.putExtra(RedLifeContants.PHONE_NUMBER, cardObject.getFromData(RedLifeContants.PHONE_NUMBER));
                             requestDetail.putExtra(RedLifeContants.DETAILS, cardObject.getFromData(RedLifeContants.DETAILS));
+                            requestDetail.putExtra(RedLifeContants.RESPOND_TIME, cardObject.getFromData(RedLifeContants.RESPOND_TIME));
                             requestDetail.putExtra("requestId", cardObject.getId());
-
                             startActivity(requestDetail);
                         }
                     });

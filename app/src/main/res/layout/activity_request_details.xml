@@ -21,18 +21,19 @@
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.45" />
+        android:layout_weight="0.60" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.55">
+        android:layout_weight="0.40">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
+                android:id="@+id/responseOptionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -72,6 +73,37 @@
                 android:layout_height="60dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/respondedTimeLayout"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvRespondTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center_vertical"
+                    android:hint="Responded on 23/12/2015"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="45dp"
+                    android:paddingTop="6dp"
+                    android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="true"
+                    android:contentDescription="Edit image icon"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_action_done" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp">
 
                 <TextView
@@ -98,7 +130,7 @@
             </RelativeLayout>
 
 
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_marginLeft="8dp"
@@ -126,9 +158,9 @@
                     android:contentDescription="Edit image icon"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_communication_phone" />
-            </RelativeLayout>
+            </RelativeLayout>-->
 
-            <RelativeLayout
+            <!--<RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_marginLeft="8dp"
@@ -156,7 +188,7 @@
                     android:contentDescription="Edit image icon"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_communication_email" />
-            </RelativeLayout>
+            </RelativeLayout> -->
 
             <RelativeLayout
                 android:layout_width="wrap_content"

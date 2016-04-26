@@ -289,6 +289,7 @@ public class MapActivity extends FragmentActivity implements LocationListener,
 
     public void onCancel(View view) {
         NavUtils.navigateUpFromSameTask(this);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     public void onProceed(View view) {
